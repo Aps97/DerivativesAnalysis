@@ -20,6 +20,7 @@ import { StrategyBuilderComponentModule } from './strategy-builder-component/str
 import { CurrentHoldingsComponentModule } from './current-holdings-component/current-holdings-component.module';
 import { AnalysisComponentModule } from './analysis-component/analysis-component.module';
 import { LoginComponent } from './login/login.component';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 
 
 
@@ -31,7 +32,8 @@ import { LoginComponent } from './login/login.component';
     StrategyBuilderComponentComponent,
     AnalysisComponentComponent,
     HeaderComponent,
-    LoginComponent
+    LoginComponent,
+    AutoCompleteModule
   ],
   imports: [
     BrowserModule,
