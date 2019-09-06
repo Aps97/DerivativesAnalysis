@@ -10,19 +10,29 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule} from '@angular/router';
 import { DashboardComponentComponent } from './dashboard-component/dashboard-component.component';
-import { CurrentHoldingsComponent } from './current-holdings/current-holdings.component';
+import { CurrentHoldingsComponentComponent } from './current-holdings-component/current-holdings-component.component';
 import { StrategyBuilderComponentComponent } from './strategy-builder-component/strategy-builder-component.component';
 import { AnalysisComponentComponent } from './analysis-component/analysis-component.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { HeaderComponent } from './header/header.component';
+import { DashboardComponentModule } from './dashboard-component/dashboard-component.module';
+import { StrategyBuilderComponentModule } from './strategy-builder-component/strategy-builder-component.module';
+import { CurrentHoldingsComponentModule } from './current-holdings-component/current-holdings-component.module';
+import { AnalysisComponentModule } from './analysis-component/analysis-component.module';
+import { LoginComponent } from './login/login.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponentComponent,
-    CurrentHoldingsComponent,
+    CurrentHoldingsComponentComponent,
     StrategyBuilderComponentComponent,
-    AnalysisComponentComponent
+    AnalysisComponentComponent,
+    HeaderComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -33,11 +43,19 @@ import { HttpClientModule } from '@angular/common/http';
     TableModule,
     BrowserAnimationsModule,
     ButtonModule,
-    HttpClientModule,
     RouterModule.forRoot([
-      { path: 'login', component: AppComponent },
-      { path: 'login/holdings', component: CurrentHoldingsComponent },
-    ])
+      { path: 'login', component: AppComponent},
+      { path: '', component: LoginComponent},
+      { path: 'app/dashboard', component: DashboardComponentComponent},
+      { path: 'app/holdings', component: CurrentHoldingsComponentComponent},
+      { path: 'app/analysis', component: AnalysisComponentComponent},
+      { path: 'app/strategies', component: StrategyBuilderComponentComponent},
+    ]),
+    TabMenuModule,
+    DashboardComponentModule,
+    StrategyBuilderComponentModule,
+    CurrentHoldingsComponentModule,
+    AnalysisComponentModule
   ],
   providers: [],
   bootstrap: [AppComponent]
