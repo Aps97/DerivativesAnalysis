@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 interface City {
   name: string;
@@ -21,7 +22,7 @@ export class AppComponent {
     
     selectedCity2: City;
 
-    constructor() {
+    constructor(private router : Router) {
         //SelectItem API with label-value pairs
         this.cities1 = [
           {name: 'New York', code: 'NY'},
@@ -40,4 +41,8 @@ export class AppComponent {
             {name: 'Paris', code: 'PRS'}
         ];
     }
+
+    loginUser() : void {
+      this.router.navigateByUrl('login/holdings');
+  }
 }
