@@ -4,7 +4,9 @@ import { NgModule } from '@angular/core';
 import { RadioButtonModule } from 'primeng/primeng';
 import {DropdownModule} from 'primeng/dropdown';
 import {TableModule} from 'primeng/table';
-import {FormsModule} from '@angular/forms';
+import {ChartModule} from 'primeng/chart';
+import {FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import {ButtonModule} from 'primeng/button';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,15 +35,18 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
     StrategyBuilderComponentComponent,
     AnalysisComponentComponent,
     HeaderComponent,
-    LoginComponent,
-    AutoCompleteModule
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RadioButtonModule,
     DropdownModule,
+    ChartModule,
+    HttpClientModule,
+    AutoCompleteModule,
     FormsModule,
+    ReactiveFormsModule,
     TableModule,
     BrowserAnimationsModule,
     ButtonModule,

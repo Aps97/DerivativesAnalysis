@@ -1,4 +1,76 @@
-Login below: <br>
-Username: <br>
-Password: <br>
-<a href='app/dashboard/'>Log In</a>
+<div class="jumbotron text-center">
+        <h1 style="font-family: 'Droid Sans Mono'; font-size: 50px">{{title}}</h1>
+        <p style="font-size: large"><i>Group 3</i></p>
+     </div>
+<div class="containermine">
+    <div class="row">
+
+        <div class="col-sm-6">
+            <div class="row text-center">
+                <form [formGroup]="createAccountForm" (ngSubmit)="onCreateAccountSubmit()">
+                    
+                    <div class="row">
+                        <label>
+                            First Name:
+                            <input type="text" formControlName="firstName">
+                        </label>
+                    </div>
+
+                    <div class="row">
+                        <label>
+                            Last Name:
+                            <input type="text" formControlName="lastName">
+                        </label>
+                    </div>
+
+                    <div class="row" style="margin-left: 30px">
+                        <label>
+                            Email ID:
+                            <input type="text" formControlName="emailID">
+                        </label>
+                    </div>
+                    
+                    <div class="row">
+                        <label>
+                            Password:
+                            <input type="password" formControlName="password">
+                        </label>
+                    </div>
+                    
+                    <div class="row">
+                        <button type="submit" [disabled]="!createAccountForm.valid">Sign Up</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="row" style="margin-left: 50px">
+                <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+
+                    <div class="row">
+                        <label>
+                            Email ID:
+                            <input type="text" formControlName="emailIDLogin">
+                        </label>
+                    </div>
+                    
+                    <div class="row">
+                        <label>
+                            Password:
+                            <input type="password" formControlName="passwordLogin">
+                        </label>
+                    </div>
+                    
+                    <div class="row">
+                        <button type="submit" [disabled]="!loginForm.valid">Sign In</button>
+                        <a href='app/dashboard/'>Log In</a>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="vl"></div>
+</div>

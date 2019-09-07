@@ -8,6 +8,8 @@ import { MenuItem } from 'primeng/api';
 })
 export class HeaderComponent implements OnInit {
 
+  firstName : String;
+
   constructor() { }
 
   items: MenuItem[];
@@ -19,6 +21,8 @@ export class HeaderComponent implements OnInit {
       {label: 'Derivatives Analysis', icon: 'fa fa-fw fa-line-chart', routerLink: ['../analysis']},
       {label: 'Strategy Builder', icon: 'fa fa-fw fa-money', routerLink: ['../strategies']},
   ];
+
+  
   }
 
 }
