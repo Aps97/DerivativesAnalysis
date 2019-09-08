@@ -4,22 +4,54 @@
     padding-top: 15px;
 }
 
-.containermine{
-    margin-left: 10px;
-    margin-right: 0px;
-    margin-top: 10px;
-    width: 1420px;
-    height: 500px;
-}
+// .containermine{
+//     margin-left: 10px;
+//     margin-right: 0px;
+//     margin-top: 10px;
+//     width: 1520px;
+//     height: 500px;
+// }
 
-.row{
-    width: 1420px;
-    margin-left: 20px;
+// .row2{
+//     width: 1520px;
+//     margin-left: 10px;
+//   }
+
+.input-container {
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .iconR {
+    padding: 10px;
+    background: green;
+    color: white;
+    min-width: 50px;
+    text-align: center;
+  }
+  
+  .icon {
+    padding: 10px;
+    background: dodgerblue;
+    color: white;
+    min-width: 50px;
+    text-align: center;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+  }
+  
+  .input-field:focus {
+    border: 2px solid dodgerblue;
   }
 
 .addMargin{
-    margin-left: 150px;
-    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .vl {

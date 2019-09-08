@@ -24,6 +24,8 @@ import { CurrentHoldingsComponentModule } from './current-holdings-component/cur
 import { AnalysisComponentModule } from './analysis-component/analysis-component.module';
 import { LoginComponent } from './login/login.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
+import { DataService } from './data.service';
+import { LoginService } from './login.service';
 
 
 
@@ -64,7 +66,10 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
     CurrentHoldingsComponentModule,
     AnalysisComponentModule
   ],
-  providers: [],
+  providers: [
+    DataService,
+    LoginService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

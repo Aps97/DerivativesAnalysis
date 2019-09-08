@@ -2,69 +2,82 @@
         <h1 style="font-family: 'Droid Sans Mono'; font-size: 50px">{{title}}</h1>
         <p style="font-size: large"><i>Group 3</i></p>
      </div>
-<div class="containermine">
+<div class="container-fluid">
+
     <div class="row">
 
-        <div class="col-sm-6">
-            <div class="row text-center">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-3">
+            <div class="row" style="margin-top: 30px; margin-bottom: 20px">
+                <h1>Create new account</h1>
+            </div>
+            <div class="row">
                 <form [formGroup]="createAccountForm" (ngSubmit)="onCreateAccountSubmit()">
                     
-                    <div class="row">
-                        <label>
-                            First Name:
-                            <input type="text" formControlName="firstName">
-                        </label>
+                    <div class="row addMargin">
+                        <div class="input-container">
+                            <i class="fa fa-user iconR"></i>
+                            <input class="input-field" type="text" placeholder="First Name" formControlName="firstName" style="width: 360px">
+                        </div>
                     </div>
 
-                    <div class="row">
-                        <label>
-                            Last Name:
-                            <input type="text" formControlName="lastName">
-                        </label>
+                    <div class="row addMargin">
+                        <div class="input-container">
+                            <i class="fa fa-user iconR"></i>
+                            <input class="input-field" type="text" placeholder="Last Name" formControlName="lastName">
+                        </div>
                     </div>
 
-                    <div class="row" style="margin-left: 30px">
-                        <label>
-                            Email ID:
-                            <input type="text" formControlName="emailID">
-                        </label>
+                    <div class="row addMargin">
+                        <div class="input-container">
+                            <i class="fa fa-envelope iconR"></i>
+                            <input class="input-field" type="text" placeholder="Email ID" formControlName="emailID">
+                        </div>
                     </div>
                     
-                    <div class="row">
-                        <label>
-                            Password:
-                            <input type="password" formControlName="password">
-                        </label>
+                    <div class="row addMargin">
+                        <div class="input-container">
+                            <i class="fa fa-lock iconR"></i>
+                            <input class="input-field" type="password" placeholder="Password" formControlName="password">
+                        </div>
                     </div>
                     
-                    <div class="row">
-                        <button type="submit" [disabled]="!createAccountForm.valid">Sign Up</button>
+                    <div class="row addMargin">
+                        <button class="btn btn-success" type="submit" [disabled]="!createAccountForm.valid">Register</button>
                     </div>
                     
                 </form>
             </div>
         </div>
 
-        <div class="col-sm-6">
-            <div class="row" style="margin-left: 50px">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-4">
+            <div class="row" style="margin-top: 30px; margin-bottom: 20px">
+                <h1>Welcome Back!</h1>
+            </div>
+            <div class="row">
                 <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
 
-                    <div class="row">
-                        <label>
-                            Email ID:
-                            <input type="text" formControlName="emailIDLogin">
-                        </label>
+                    <div class="row addMargin">
+                        
+                        <div class="input-container">
+                            <i class="fa fa-envelope icon"></i>
+                            <input class="input-field" type="text" placeholder="Email ID" formControlName="emailIDLogin" style="width: 300px">
+                        </div>
                     </div>
                     
-                    <div class="row">
-                        <label>
-                            Password:
-                            <input type="password" formControlName="passwordLogin">
-                        </label>
+                    <div class="row addMargin">
+                        
+                        <div class="input-container">
+                            <i class="fa fa-key icon"></i>
+                            <input class="input-field" type="password" placeholder="Password" formControlName="passwordLogin">
+                        </div>
+                        
                     </div>
                     
-                    <div class="row">
-                        <button type="submit" [disabled]="!loginForm.valid">Sign In</button>
+                    <div class="row addMargin">
+                        <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid" (click)="onLoginSubmit()"
+                        style="width: 100px">Login</button>
                         <a href='app/dashboard/'>Log In</a>
                     </div>
                     
