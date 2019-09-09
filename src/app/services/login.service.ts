@@ -1,5 +1,6 @@
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { User } from './Classes/User';
+import { User } from '../Classes/User';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({
@@ -11,8 +12,6 @@ export class LoginService {
   constructor(private httpService: HttpClient) { }
 
   sendLoginRequest(postData: User) {
-    return this.httpService.post('http://127.0.0.1:5000/postdata', postData).subscribe(res => {
-      console.log(res);
-    }, err => (console.log('Error..')) );
+    return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/check', postData).pipe(map(res => res));
   }
 }
