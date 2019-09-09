@@ -11,9 +11,9 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 })
 export class CurrentHoldingsComponentComponent implements OnInit {
 
-  holdings: any;
-  cols: any[];
-  selectedHoldings: any[] = [];
+  holdings : any;
+  cols : any[];
+  selectedHoldings : any = [];
   LineChart = [];
   // form: FormGroup;
 
@@ -45,17 +45,8 @@ export class CurrentHoldingsComponentComponent implements OnInit {
     ];
   }
 
-  highlightSelection($event){
-    // for( let x of this.selectedHoldings ){
-    //   console.log("selection: " + x.symbol);
-    // }
-
-    console.log("ngmodel: " + this.selectedHoldings);
-  }
-
-  clearSelection($event){
-    // make changes for removing only the unselected value from array
-    this.selectedHoldings = null;
+  selectedRow(){
+    console.log(this.selectedHoldings);
   }
 
   clearChart(){
@@ -63,6 +54,9 @@ export class CurrentHoldingsComponentComponent implements OnInit {
   }
 
   generateChart(){
+
+
+
     this.LineChart = new Chart('lineChart', {
       type: 'line',
       data: {
@@ -91,8 +85,5 @@ export class CurrentHoldingsComponentComponent implements OnInit {
         }
       }
     });
-    // this.form = this.formBuilder.group({
-    //   avatar: ['']
-    // });
   }
 }
