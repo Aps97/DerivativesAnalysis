@@ -1,8 +1,12 @@
 <nav class="navbar navbar-fixed-top navbar" style="position:relative; top:9px;">
   <p-tabMenu [model]="items"></p-tabMenu>
   <div class="right">
-      Welcome {{temp}}
+    <div class="left">
+      <p-message severity="success" text="Welcome, {{temp}}"></p-message>
+    </div>
+    <div class="right">
       <p-button label="Logout" (onClick)="logout()"></p-button>
+    </div>
   </div>
 </nav>
 

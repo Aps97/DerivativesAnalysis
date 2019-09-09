@@ -9,6 +9,7 @@ import { setUser } from '../login/login.component';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
+
 export class HeaderComponent implements OnInit {
 
   temp = firstName;
@@ -28,7 +29,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    setUser(null, null, null, null);
+    setUser(null, 'Guest', null, null);
     this.router.navigateByUrl('/login');
   }
 

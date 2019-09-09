@@ -5,7 +5,7 @@ import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 
 export let emailId = '';
-export let firstName = '';
+export let firstName = 'Guest';
 export let lastName = '';
 export let userHoldings = '';
 
