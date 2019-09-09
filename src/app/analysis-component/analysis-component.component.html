@@ -1,2 +1,127 @@
-<p>analysis-component works!</p>
-<p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
+<div class="container-fluid">
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3">Add global search bar</div>
+    </div>
+
+    <div class="row addColour" style="margin-bottom: 20px">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-3">
+                <div class="row" style="margin-bottom: 10px; ; margin-top: 10px">
+                    <input type="text" placeholder="Security" disabled="true">
+                </div>
+                <div class="row">
+                    <input type="text" placeholder="Security details" disabled="true">
+                </div>    
+            </div>
+
+            <div class="col-sm-3">
+                <div class="row" style="margin-bottom: 10px; ; margin-top: 10px">
+                    <p-dropdown [(ngModel)]="selectedSecurity" [options]="symbolDropdown" optionLabel="name"
+                    autoWidth="false" [style]="{'width':'280px'}"></p-dropdown>
+                </div>
+                <form #analysisForm="ngForm" (ngSubmit)="onAnalysisSubmit(analysisForm)">
+                    <div class="row" style="margin-bottom: 10px; padding-left: 0px">
+                        <div class="col-sm-4">
+                            <input min="1" max="5000" type="number" value="0" name="price" style="width:120px; padding-left: 0px" ngModel required>
+                        </div>
+                        <div class="col-sm-6" style="margin-bottom: 10px">
+                            <input min="1" max="5000" type="number" value="0" name="quantity" style="width:120px; margin-left: 0px" ngModel required>
+                        </div> 
+                    </div>
+                 
+                    <div class="row" style="margin-bottom: 10px; padding-left: 0px">
+                        <div class="col-sm-3">
+                            <p-radioButton name="type" value="Buy" label="Buy" [(ngModel)]="selectedType"></p-radioButton>
+                        </div>
+                        <div class="col-sm-3" style="padding-right: 0px; width: 15px">
+                            <p-radioButton name="type" value="Sell" label="Sell" [(ngModel)]="selectedType"></p-radioButton>
+                        </div> 
+                        <div class="col-sm-3">
+                            <button class="btn btn-primary" type="submit"
+                                style="width: 70px; ; margin-top: 10px; ; margin-bottom: 10px">Submit</button>
+                        </div> 
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm-3">
+                <!-- <div class="row">
+                    <button class="btn btn-primary" type="submit" [disabled]="!analysisForm.valid" (click)="onBuySubmit(analysisForm.value)"
+                        style="width: 70px; ; margin-top: 10px; ; margin-bottom: 10px">Buy</button>
+                </div>
+                <div class="row">
+                        <button class="btn btn-primary" type="submit" [disabled]="!analysisForm.valid" (click)="onSellSubmit()"
+                        style="width: 70px; margin-bottom: 10px">Sell</button>
+                </div> -->
+            </div>
+            
+        </div>
+
+        <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-3">
+                    <div class="row">
+                        <div class="col-sm-4"><label>Net P/L :</label></div>
+                        <div class="col-sm-4">
+                            <input type="text" placeholder="0" disabled="true" [(ngModel)]="net_p_l">
+                        </div>    
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4"><label>Fair Price :</label></div>
+                        <div class="col-sm-4">
+                            <input type="text" placeholder="0" disabled="true" [(ngModel)]="fairPrice">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4"><label>Max Profit :</label></div>
+                        <div class="col-sm-4">
+                            <input type="text" placeholder="0" disabled="true" [(ngModel)]="maxProfit">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4"><label>Max Loss :</label></div>
+                        <div class="col-sm-4">
+                            <input type="text" placeholder="0" disabled="true" [(ngModel)]="maxLoss">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4"><label>Breakevens :</label></div>
+                        <div class="col-sm-4">
+                            <input type="text" placeholder="0" disabled="true" [(ngModel)]="Breakevens">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px">
+                            <p-table #at [columns]="cols" [value]="summary" [paginator]="true" [rows]="10" 
+                             [scrollable]="true" [style]="{width:'350px'}" ngDefaultControl>
+                                    <ng-template pTemplate="caption">
+                                            <div style="text-align: right">       
+                                                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                                <input type="text" pInputText size="40" placeholder="Global Filter" (input)="at.filterGlobal($event.target.value, 'contains')" style="width:300">
+                                            </div>
+                                        </ng-template>
+                                    <ng-template pTemplate="header" let-columns>
+                                        <tr>
+                                            <th *ngFor="let col of columns">
+                                                {{col.header}}
+                                            </th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-summary let-columns="columns">
+                                        <tr>
+                                            <td *ngFor="let col of columns">
+                                                    {{summary[col.field]}}
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <canvas id="lineChart"></canvas>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+</div>

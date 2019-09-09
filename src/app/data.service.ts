@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import { Derivative } from './Classes/Dervivative';
+import { AnalysisData } from './Classes/AnalysisData';
 
 @Injectable({
   providedIn: 'root'
@@ -98,15 +99,24 @@ export class DataService {
     return this.httpService.get('http://127.0.0.1:5000/holdings').pipe(map(result => result));
   }
 
+  sendHoldings_getChartData(holdings: Derivative) {
+    return this.httpService.post('http://127.0.0.1:5000/postdata', holdings).pipe(map(result => result));
+    
+  }
+
   sendUserInput(postData: Derivative) {
     return this.httpService.post('http://127.0.0.1:5000/postdata', postData).subscribe(res => {
       console.log(res);
     }, err => (console.log('Error..')) );
   }
 
-  sendFormInput(formdata: FormData) {
-    return this.httpService.post('http://127.0.0.1:5000/filedata', formdata).subscribe(res => {
-      console.log(res);
-    }, err => (console.log('Error..')) );
+  // sendFormInput(formdata: FormData) {
+  //   return this.httpService.post('http://127.0.0.1:5000/filedata', formdata).subscribe(res => {
+  //     console.log(res);
+  //   }, err => (console.log('Error..')) );
+  // }
+
+  sendAnalysisInput(postdata : AnalysisData){
+    return this.httpService.post('http://127.0.0.1:5000/holdings', postdata).pipe(map(result => result));
   }
 }
