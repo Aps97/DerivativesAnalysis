@@ -62,6 +62,7 @@ export class AnalysisComponentComponent implements OnInit {
 
   onAnalysisSubmit(data){
     console.log(data.Price);
+    
     this.postData.price = data.price;
     this.postData.type = this.selectedType;
     this.postData.quantity = data.quantity;

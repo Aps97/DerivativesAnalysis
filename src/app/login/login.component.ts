@@ -4,6 +4,15 @@ import { LoginService } from '../services/login.service';
 import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 
+export var loginEmail = " ";
+export var loginUsername = " ";
+
+
+export function setLoginEmail(email, username) {
+  loginEmail = email;
+  loginUsername = username;
+}
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -43,11 +52,13 @@ export class LoginComponent implements OnInit {
 
   onLoginSubmit() {
     // TODO: Use EventEmitter with form value
-    let resp;
+    let response;
     this.loginService.sendLoginRequest(this.loginForm.value).subscribe(res => {
-      resp = res;
-      console.log(resp.message);
-      this.router.navigateByUrl(resp.url);
+      response = res;
+      //console.log(response.message);
+      setLoginEmail(response.uniqueIdentifier, response.firstName);
+      console.log(response);
+      this.router.navigateByUrl(response.url);
     });
   }
 

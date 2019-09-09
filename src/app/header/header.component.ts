@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { loginEmail, setLoginEmail } from '../login/login.component';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +9,7 @@ import { MenuItem } from 'primeng/api';
 })
 export class HeaderComponent implements OnInit {
 
-  firstName : String;
+  firstName = loginEmail;
 
   constructor() { }
 
@@ -21,8 +22,11 @@ export class HeaderComponent implements OnInit {
       {label: 'Derivatives Analysis', icon: 'fa fa-fw fa-line-chart', routerLink: ['../analysis']},
       {label: 'Strategy Builder', icon: 'fa fa-fw fa-money', routerLink: ['../strategies']},
   ];
-
   
+  }
+
+  logout(){
+    setLoginEmail(null, null);
   }
 
 }

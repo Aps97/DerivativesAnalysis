@@ -3,6 +3,7 @@ import { Derivative } from '../Classes/Dervivative';
 import { DataService } from '../services/data.service';
 import { Chart } from 'chart.js';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import { setLoginEmail, loginEmail } from '../login/login.component';
 
 @Component({
   selector: 'app-current-holdings',
@@ -54,8 +55,6 @@ export class CurrentHoldingsComponentComponent implements OnInit {
   }
 
   generateChart(){
-
-
 
     this.LineChart = new Chart('lineChart', {
       type: 'line',
