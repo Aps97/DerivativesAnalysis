@@ -1,5 +1,9 @@
 <nav class="navbar navbar-fixed-top navbar" style="position:relative; top:9px;">
-  <p-tabMenu [model]="items"></p-tabMenu> Welcome $USER
+  <p-tabMenu [model]="items"></p-tabMenu>
+  <div class="right">
+      Welcome {{temp}}
+      <p-button label="Logout" (onClick)="logout()"></p-button>
+  </div>
 </nav>
 
 <div class="app-container" fxFlex>

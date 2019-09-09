@@ -4,11 +4,26 @@ import { LoginService } from '../services/login.service';
 import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 
+export let emailId = '';
+export let firstName = '';
+export let lastName = '';
+export let userHoldings = '';
+
+export function setUser(v1, v2, v3, v4) {
+  emailId = v1;
+  firstName = v2;
+  lastName = v3 ;
+  userHoldings = v4;
+  // console.log(emailId, firstName, lastName, userHoldings);
+}
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
+
+
 export class LoginComponent implements OnInit {
 
   firstName: String;
@@ -20,8 +35,8 @@ export class LoginComponent implements OnInit {
     password: ['', Validators.required],
   });
   loginForm = this.fb.group({
-    emailIDLogin: ['', Validators.required],
-    passwordLogin: ['', Validators.required],
+    emailId: ['', Validators.required],
+    password: ['', Validators.required],
   });
 
   constructor(private loginService: LoginService,
@@ -47,6 +62,7 @@ export class LoginComponent implements OnInit {
     this.loginService.sendLoginRequest(this.loginForm.value).subscribe(res => {
       resp = res;
       console.log(resp.message);
+      setUser(resp.emailId, resp.firstName, resp.lastName, resp.userHoldings);
       this.router.navigateByUrl(resp.url);
     });
   }

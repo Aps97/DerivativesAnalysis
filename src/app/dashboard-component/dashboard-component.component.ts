@@ -1,6 +1,8 @@
 import { DataService } from './../services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
+import { Renderer2, Inject } from '@angular/core';
+import {DOCUMENT} from '@angular/common';
 
 @Component({
   selector: 'app-dashboard-component',
@@ -26,12 +28,17 @@ export class DashboardComponentComponent implements OnInit {
   selectedHoldings: any[] = [];
 
 
-  constructor(private derivativeService: DataService) {
+  constructor(private derivativeService: DataService, private renderer2: Renderer2, @Inject(DOCUMENT) private _document) {
     this.holdings = this.derivativeService.getUserHoldings();
   }
 
   ngOnInit() {
     this.generateChart();
+    const s = this.renderer2.createElement('script');
+    s.type = 'text/javascript';
+    s.src = './marketwidget.js';
+    s.text = ``;
+    this.renderer2.appendChild(this._document.body, s);
   }
 
   generateChart() {

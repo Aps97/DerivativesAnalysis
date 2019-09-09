@@ -12,6 +12,6 @@ export class LoginService {
   constructor(private httpService: HttpClient) { }
 
   sendLoginRequest(postData: User) {
-    return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/check', postData).pipe(map(res => res));
+    return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/login', postData).pipe(map(res => res));
   }
 }
