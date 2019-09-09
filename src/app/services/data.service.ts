@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import { Derivative } from './Classes/Dervivative';
-import { AnalysisData } from './Classes/AnalysisData';
+import { Derivative } from '../Classes/Dervivative';
+import { AnalysisData } from '../Classes/AnalysisData';
 
 @Injectable({
   providedIn: 'root'

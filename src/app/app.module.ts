@@ -24,8 +24,8 @@ import { CurrentHoldingsComponentModule } from './current-holdings-component/cur
 import { AnalysisComponentModule } from './analysis-component/analysis-component.module';
 import { LoginComponent } from './login/login.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
-import { DataService } from './data.service';
-import { LoginService } from './login.service';
+import { DataService } from './services/data.service';
+import { LoginService } from './services/login.service';
 
 
 
@@ -53,7 +53,7 @@ import { LoginService } from './login.service';
     BrowserAnimationsModule,
     ButtonModule,
     RouterModule.forRoot([
-      { path: 'login', component: AppComponent},
+      { path: 'login', component: LoginComponent},
       { path: '', component: LoginComponent},
       { path: 'app/dashboard', component: DashboardComponentComponent},
       { path: 'app/holdings', component: CurrentHoldingsComponentComponent},
@@ -72,6 +72,6 @@ import { LoginService } from './login.service';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
+export class AppModule {
 
 }

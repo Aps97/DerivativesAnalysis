@@ -1,5 +1,6 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../login.service';
+import { LoginService } from '../services/login.service';
 import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 
@@ -10,8 +11,8 @@ import { FormBuilder } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  firstName : String;
-  title = "Derivatives Analysis";
+  firstName: String;
+  title = 'Derivatives Analysis';
   createAccountForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
   });
 
   constructor(private loginService: LoginService,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
 
@@ -42,7 +43,12 @@ export class LoginComponent implements OnInit {
 
   onLoginSubmit() {
     // TODO: Use EventEmitter with form value
-    console.log(this.loginForm.value);
+    let resp;
+    this.loginService.sendLoginRequest(this.loginForm.value).subscribe(res => {
+      resp = res;
+      console.log(resp.message);
+      this.router.navigateByUrl(resp.url);
+    });
   }
 
 }

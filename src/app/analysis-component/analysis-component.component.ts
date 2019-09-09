@@ -5,7 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { Chart } from 'chart.js';
 import { Derivative } from '../Classes/Dervivative';
 import { AnalysisData } from '../Classes/AnalysisData';
-import { DataService } from '../data.service';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-analysis-component',

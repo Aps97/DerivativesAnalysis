@@ -13,7 +13,7 @@
             </div>
             <div class="row">
                 <form [formGroup]="createAccountForm" (ngSubmit)="onCreateAccountSubmit()">
-                    
+
                     <div class="row addMargin">
                         <div class="input-container">
                             <i class="fa fa-user iconR"></i>
@@ -34,18 +34,18 @@
                             <input class="input-field" type="text" placeholder="Email ID" formControlName="emailID">
                         </div>
                     </div>
-                    
+
                     <div class="row addMargin">
                         <div class="input-container">
                             <i class="fa fa-lock iconR"></i>
                             <input class="input-field" type="password" placeholder="Password" formControlName="password">
                         </div>
                     </div>
-                    
+
                     <div class="row addMargin">
                         <button class="btn btn-success" type="submit" [disabled]="!createAccountForm.valid">Register</button>
                     </div>
-                    
+
                 </form>
             </div>
         </div>
@@ -59,28 +59,27 @@
                 <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
 
                     <div class="row addMargin">
-                        
+
                         <div class="input-container">
                             <i class="fa fa-envelope icon"></i>
                             <input class="input-field" type="text" placeholder="Email ID" formControlName="emailIDLogin" style="width: 300px">
                         </div>
                     </div>
-                    
+
                     <div class="row addMargin">
-                        
+
                         <div class="input-container">
                             <i class="fa fa-key icon"></i>
                             <input class="input-field" type="password" placeholder="Password" formControlName="passwordLogin">
                         </div>
-                        
+
                     </div>
-                    
+
                     <div class="row addMargin">
-                        <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid" (click)="onLoginSubmit()"
+                        <button class="btn btn-primary" type="submit" (click)="onLoginSubmit()"
                         style="width: 100px">Login</button>
-                        <a href='app/dashboard/'>Log In</a>
                     </div>
-                    
+
                 </form>
             </div>
         </div>

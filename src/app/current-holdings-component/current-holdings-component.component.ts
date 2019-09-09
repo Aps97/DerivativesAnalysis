@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Derivative } from '../Classes/Dervivative';
-import { DataService } from '../data.service';
+import { DataService } from '../services/data.service';
 import { Chart } from 'chart.js';
 import {FormBuilder, FormGroup} from '@angular/forms';
 
@@ -15,7 +15,7 @@ export class CurrentHoldingsComponentComponent implements OnInit {
   cols : any[];
   selectedHoldings : any = [];
   LineChart = [];
-  //form: FormGroup;
+  // form: FormGroup;
 
   constructor( private derivativeService: DataService,
                //private formBuilder: FormBuilder
@@ -64,7 +64,7 @@ export class CurrentHoldingsComponentComponent implements OnInit {
         datasets: [{
           label: 'Pay-Off Chart for selected holdings',
           data: [
-            {x:-4, y: -1, indexLabel: "lowest",markerColor: "DarkSlateGrey", markerType: "cross"} , {x:4, y:-1}, {x:8, y:8}],
+            {x:-4, y: -1, indexLabel: "lowest", markerColor: "DarkSlateGrey", markerType: "cross"} , {x:4, y:-1}, {x:8, y:8}],
           fill: false,
           lineTension: 0.2,
           borderColor: 'red',
