@@ -8,3 +8,15 @@
   padding: 15px;
   margin: 15px;
 }
+
+.right {
+  position: relative;
+  float: right;
+}
+
+.left {
+  position: relative;
+  float: left;
+  margin-right: 10px;
+  top: -1px;
+}
