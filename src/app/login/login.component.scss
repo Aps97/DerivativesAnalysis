@@ -1,63 +1,87 @@
+.message{
+  position: relative;
+  left: 15%;
+}
+
+.col-left{
+  height: 100%;
+  width: 45%;
+  position: relative;
+  float: left;
+  text-align:center;
+}
+
+.col-right{
+  height: 100%;
+  width: 45%;
+  position: relative;
+  float: right;
+  text-align:center;
+}
+
+.col-center{
+  position: relative;
+  float: center;
+  text-align: center;
+  vertical-align: middle;
+}
+
 .jumbotron{
     height: 160px;
     margin: 10px;
     padding-top: 15px;
 }
 
-// .containermine{
-//     margin-left: 10px;
-//     margin-right: 0px;
-//     margin-top: 10px;
-//     width: 1520px;
-//     height: 500px;
-// }
-
-// .row2{
-//     width: 1520px;
-//     margin-left: 10px;
-//   }
-
 .input-container {
     display: -ms-flexbox; /* IE10 */
     display: flex;
     width: 100%;
     margin-bottom: 15px;
+    vertical-align: middle;
+    display: inline-block;
   }
 
   .iconR {
-    padding: 10px;
+    padding: 15px;
     background: green;
     color: white;
     min-width: 50px;
+    min-height: 48px;
     text-align: center;
+    position: relative;
+    top: -1px;
   }
-  
+
   .icon {
-    padding: 10px;
+    padding: 15px;
     background: dodgerblue;
     color: white;
     min-width: 50px;
+    min-height: 48px;
     text-align: center;
+    position: relative;
+    top: -1px;
   }
-  
+
   .input-field {
-    width: 100%;
+    width: 60%;
     padding: 10px;
     outline: none;
   }
-  
+
   .input-field:focus {
     border: 2px solid dodgerblue;
   }
 
 .addMargin{
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    vertical-align: middle;
 }
 
 .vl {
     border-left: 3px solid gray;
     height: 500px;
-    margin-top: 180px;
+    margin-top: 200px;
     position: absolute;
     left: 50%;
     margin-left: -3px;

@@ -12,6 +12,12 @@ export class LoginService {
   constructor(private httpService: HttpClient) { }
 
   sendLoginRequest(postData: User) {
+    console.log('Logging in...');
     return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/login ', postData).pipe(map(res => res));
+  }
+
+  sendCreateRequest(postData: User) {
+    console.log('Creating user...');
+    return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/create ', postData).pipe(map(res => res));
   }
 }
