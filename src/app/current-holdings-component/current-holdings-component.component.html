@@ -3,7 +3,7 @@
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
             <div class="row" style="margin-top: 30px">
-                    <p-table #dt [columns]="cols" [value]="holdings" [paginator]="true" [rows]="10" selectionMode="multiple" 
+                    <p-table #dt [columns]="cols" [value]="tableData" [paginator]="true" [rows]="10" selectionMode="multiple" 
                     [(selection)]="selectedHoldings" [scrollable]="true" [style]="{width:'1200px'}" ngDefaultControl>
                             <ng-template pTemplate="caption">
                                     <div style="text-align: right">       

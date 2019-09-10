@@ -14,9 +14,11 @@ import { DataService } from '../services/data.service';
 })
 export class AnalysisComponentComponent implements OnInit {
 
-  cities1: SelectItem[];
+  securities: SelectItem[];
+  instruments: SelectItem[];
 
   selectedSecurity: String;
+  selectedInstrument: String;
 
   result : any;
 
@@ -25,7 +27,7 @@ export class AnalysisComponentComponent implements OnInit {
     //passwordLogin: ['', Validators.required],
   });
 
-  selectedType: string;
+  selectedPosition: string;
   net_p_l : number;
   fairPrice : number;
   maxProfit : number;
@@ -41,7 +43,13 @@ export class AnalysisComponentComponent implements OnInit {
     private fb : FormBuilder,
     private analysisService: DataService
   ) {
-    
+    this.securities = [
+      {label:'HDFCBANK', value:'HDFCBANK'},
+      {label:'ITC', value:'ITC'},
+      {label:'INFY', value:'INFY'},
+      {label:'RELIANCE', value:'RELIANCE'},
+      {label:'SUNPHARMA', value:'SUNPHARMA'},
+  ];
   }
 
   ngOnInit() {
@@ -60,31 +68,54 @@ export class AnalysisComponentComponent implements OnInit {
     ];
   }
 
+  getInstrumentList(){
+    let derivativeList;
+    this.analysisService.getInstrumentsData(this.selectedSecurity).subscribe(
+        res => {
+            derivativeList = res;
+            console.log(derivativeList);
+
+            this.instruments = [];
+            for(let x=0; x<derivativeList.length; x++){
+               this.instruments.push({label: derivativeList[x].expiryDate + " " + derivativeList[x].strikePrice + " " + derivativeList[x].type,
+              value: derivativeList[x].expiryDate + " " + derivativeList[x].strikePrice + " " + derivativeList[x].type});
+            }
+
+            console.log(this.instruments);
+          });
+  }
+
   onAnalysisSubmit(data){
-    console.log(data.Price);
     
     this.postData.price = data.price;
-    this.postData.type = this.selectedType;
+    this.postData.position = this.selectedPosition;
     this.postData.quantity = data.quantity;
-    this.postData.security = this.selectedSecurity;
 
+    let tempInstrument = this.selectedSecurity.split(" ", 3);
+
+    this.postData.expiryDate = tempInstrument[0];
+    this.postData.strikePrice = tempInstrument[1];
+    this.postData.type = tempInstrument[2];
+
+    console.log(this.postData);
     let tempResult;
     this.analysisService.sendAnalysisInput(this.postData).subscribe(res=>{
       tempResult = res;
-      this.net_p_l = tempResult.net_p_l;
-      this.fairPrice = tempResult.fairPrice;
-      this.maxProfit = tempResult.maxProfit;
-      this.maxLoss = tempResult.maxLoss;
-      this.Breakevens = tempResult.Breakevens;
+      // this.net_p_l = tempResult.net_p_l;
+      // this.fairPrice = tempResult.fairPrice;
+      // this.maxProfit = tempResult.maxProfit;
+      // this.maxLoss = tempResult.maxLoss;
+      // this.Breakevens = tempResult.Breakevens;
+      console.log(tempResult);
     });
 
     this.generateChart();
-    this.summary.push(this.selectedSecurity);
+    this.summary.push(this.postData);
   }
 
   generateChart(){
 
-    let temp : Derivative;
+    let temp : Derivative[];
 
     temp = this.summary;
     this.analysisService.sendHoldings_getChartData(temp).subscribe(res=>{

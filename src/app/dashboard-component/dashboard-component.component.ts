@@ -29,16 +29,16 @@ export class DashboardComponentComponent implements OnInit {
 
 
   constructor(private derivativeService: DataService, private renderer2: Renderer2, @Inject(DOCUMENT) private _document) {
-    this.holdings = this.derivativeService.getUserHoldings();
+    //this.holdings = this.derivativeService.getUserHoldings();
   }
 
   ngOnInit() {
     this.generateChart();
-    const s = this.renderer2.createElement('script');
-    s.type = 'text/javascript';
-    s.src = './marketwidget.js';
-    s.text = ``;
-    this.renderer2.appendChild(this._document.body, s);
+    // const s = this.renderer2.createElement('script');
+    // s.type = 'text/javascript';
+    // s.src = './marketwidget.js';
+    // s.text = ``;
+    // this.renderer2.appendChild(this._document.body, s);
   }
 
   generateChart() {
@@ -60,23 +60,23 @@ export class DashboardComponentComponent implements OnInit {
             text: 'Holdings Summary',
             fontSize: 16
         },
-        plugins: [{
-          beforeRender(x, options) {
-              const c = x.chart;
-              const dataset = x.data.datasets[0];
-              const yScale = x.scales['y-axis-0'];
-              const yPos = yScale.getPixelForValue(0);
+      //   plugins: [{
+      //     beforeRender(x, options) {
+      //         const c = x.chart;
+      //         const dataset = x.data.datasets[0];
+      //         const yScale = x.scales['y-axis-0'];
+      //         const yPos = yScale.getPixelForValue(0);
 
-              const gradientFill = c.ctx.createLinearGradient(0, 0, 0, c.height);
-              gradientFill.addColorStop(0, 'green');
-              gradientFill.addColorStop(yPos / c.height - 0.01, 'green');
-              gradientFill.addColorStop(yPos / c.height + 0.01, 'red');
-              gradientFill.addColorStop(1, 'red');
+      //         const gradientFill = c.ctx.createLinearGradient(0, 0, 0, c.height);
+      //         gradientFill.addColorStop(0, 'green');
+      //         gradientFill.addColorStop(yPos / c.height - 0.01, 'green');
+      //         gradientFill.addColorStop(yPos / c.height + 0.01, 'red');
+      //         gradientFill.addColorStop(1, 'red');
 
-              const model = x.data.datasets[0]._meta[Object.keys(dataset._meta)[0]].dataset._model;
-              model.backgroundColor = gradientFill;
-          }
-      }]
+      //         const model = x.data.datasets[0]._meta[Object.keys(dataset._meta)[0]].dataset._model;
+      //         model.backgroundColor = gradientFill;
+      //     }
+      // }]
     }
   });
   }

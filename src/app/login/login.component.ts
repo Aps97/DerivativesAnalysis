@@ -7,7 +7,7 @@ import { FormBuilder } from '@angular/forms';
 export let emailId = '';
 export let firstName = 'Guest';
 export let lastName = '';
-export let userHoldings = '';
+export let userHoldings = [];
 
 export function setUser(v1, v2, v3, v4) {
   emailId = v1;
@@ -61,8 +61,8 @@ export class LoginComponent implements OnInit {
     let resp;
     this.loginService.sendLoginRequest(this.loginForm.value).subscribe(res => {
       resp = res;
-      console.log(resp.message);
-      setUser(resp.emailId, resp.firstName, resp.lastName, resp.userHoldings);
+      //console.log(resp);
+      setUser(resp.emailId, resp.firstName, resp.lastName, resp.userHolding);
       this.router.navigateByUrl(resp.url);
     });
   }
