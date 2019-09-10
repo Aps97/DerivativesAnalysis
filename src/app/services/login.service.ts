@@ -7,8 +7,6 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class LoginService {
-
-
   constructor(private httpService: HttpClient) { }
 
   sendLoginRequest(postData: User) {

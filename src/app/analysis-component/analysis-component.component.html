@@ -10,17 +10,27 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-3">
                 <div class="row" style="margin-bottom: 10px; ; margin-top: 10px">
-                    <input type="text" placeholder="Security" disabled="true">
+                    <p-dropdown [(ngModel)]="selectedSecurity" [options]="securities" placeholder="Select a security"
+                    optionLabel="label" autoWidth="false" [style]="{'width':'280px'}"></p-dropdown>
                 </div>
                 <div class="row">
-                    <input type="text" placeholder="Security details" disabled="true">
+                    <p style="font-size: 13px">Selected Security: {{selectedSecurity ? selectedSecurity.label : 'none'}}</p>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input type="text" placeholder="Security details" disabled="true">
+                    </div>
+                   <div class="col-sm-2">
+                       <!-- <button class="btn btn-success" type="submit" (onClick)="getInstrumentList()">Get</button> -->
+                       <p-button label="Generate" (onClick)="getInstrumentList()" style="margin-right: 20px"></p-button>
+                   </div>
                 </div>    
             </div>
 
             <div class="col-sm-3">
                 <div class="row" style="margin-bottom: 10px; ; margin-top: 10px">
-                    <p-dropdown [(ngModel)]="selectedSecurity" [options]="symbolDropdown" optionLabel="name"
-                    autoWidth="false" [style]="{'width':'280px'}"></p-dropdown>
+                    <p-dropdown [(ngModel)]="selectedInstrument" [options]="instruments" placeholder="Select a value"
+                    optionLabel="label" autoWidth="false" [style]="{'width':'280px'}"></p-dropdown>
                 </div>
                 <form #analysisForm="ngForm" (ngSubmit)="onAnalysisSubmit(analysisForm)">
                     <div class="row" style="margin-bottom: 10px; padding-left: 0px">

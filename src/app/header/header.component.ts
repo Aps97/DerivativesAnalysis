@@ -33,4 +33,8 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('/login');
   }
 
+  // logout(){
+  //   setLoginEmail(null, null);
+  // }
+
 }

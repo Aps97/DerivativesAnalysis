@@ -1,12 +1,10 @@
-export interface Derivative{
-    symbol : String;
-    expiryDate : String;
-	type : String ;
-	strikePrice : number;
-	quantity : number
+export class Derivative{
     avgPrice : number;
+    symbol : String;
+    instrument : String;
+    numLots : number
     ltp : number;
-    currValue : number;
+	spotPrice : number;
     pl : number;
     per_change : number;
 }

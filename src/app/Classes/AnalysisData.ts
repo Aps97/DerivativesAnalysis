@@ -1,6 +1,9 @@
 export interface AnalysisData{
-    security : String;
+    expiryDate : String;
+    strikePrice : String;
+    type : String;
+    ltp : String;
     price : number;
     quantity : number;
-    type : String;
+    position : String;
   }
