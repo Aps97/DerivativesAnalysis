@@ -3,8 +3,8 @@ export class AnalysisData{
     strikePrice : String;
     type : String;
     ltp : String;
-    price : number;
-    quantity : number;
+    price : String;
+    quantity : String;
     position : String;
-    lotsize : number;
+    lotsize : String;
   }

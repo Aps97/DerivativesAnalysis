@@ -9,7 +9,7 @@ import { DataService } from '../services/data.service';
 
 class AnalysisTable{
   strategy : String;
-  entryPrice : number;
+  entryPrice : String;
 }
 
 @Component({
@@ -42,6 +42,9 @@ export class AnalysisComponentComponent implements OnInit {
   temp: any;                        //receives list of derivatives from the service
   completeTableData: AnalysisData[] = [];   //holds the list of selected derivatives
   partialTableData: AnalysisTable[] = [];
+
+  graphData : any;
+  graphLabels = [1, 2, 36, 499];
 
   constructor(
     private analysisService: DataService
@@ -82,9 +85,10 @@ export class AnalysisComponentComponent implements OnInit {
   onAnalysisSubmit(data){
     
     this.postData = new AnalysisData();
-    this.postData.price = data.value["price"];
+    this.postData.price = data.value["price"].toString();
     this.postData.position = this.selectedPosition;
-    this.postData.quantity = data.value["quantity"];
+    //console.log(this.postData.price);
+    this.postData.quantity = data.value["quantity"].toString();
 
     let temp = this.selectedInstrument["label"];
    
@@ -93,10 +97,10 @@ export class AnalysisComponentComponent implements OnInit {
     this.postData.strikePrice = tempInstrument[1];
     this.postData.type = tempInstrument[2];
     
-    this.postData.lotsize = this.lotSize;
+    this.postData.lotsize = this.lotSize.toString();
 
     this.completeTableData.push(this.postData);
-    console.log(this.completeTableData);
+    //console.log(this.completeTableData);
 
     let x = new AnalysisTable();
     x.strategy = tempInstrument[0] + " " + tempInstrument[1] + " " + tempInstrument[2];
@@ -105,29 +109,37 @@ export class AnalysisComponentComponent implements OnInit {
 
     let tempResult;
 
-    
-    // this.analysisService.sendAnalysisInput(this.completeTableData).subscribe(res=>{
-    //   tempResult = res;
-    //   // this.maxProfit = tempResult.maxProfit;
-    //   // this.maxLoss = tempResult.maxLoss;
-    //   // this.Breakevens = tempResult.Breakevens;
-    //   console.log(tempResult);
-    // });
+    this.analysisService.sendAnalysisInput(this.completeTableData).subscribe(res=>{
+      tempResult = res;
+      this.maxProfit = tempResult.maxprofit;
+      this.maxLoss = tempResult.maxloss;
+      this.Breakevens = tempResult.breakevenpoints;
+      this.graphData = [];
 
-    //this.generateChart();
+      for(let i=0; i<tempResult.coordinatelist.length; i++){
+        this.graphData.push(tempResult.coordinatelist[i]);
+      }
+
+      console.log("graph data coming");
+      console.log(this.graphData);
+      this.generateChart();
+    });
     
   }
 
   generateChart(){
 
+    // if(!this.LineChart){
+    //     lineChart.update();
+    // }
     this.LineChart = new Chart('lineChart', {
       type: 'line',
       data: {
-        labels: ['start', 'mid', 'end'],
+        labels: this.graphLabels,
+        scaleOverride : true,
         datasets: [{
           label: 'Pay-Off Chart for selected holdings',
-          data: [
-            {x:-4, y: -1, indexLabel: "lowest",markerColor: "DarkSlateGrey", markerType: "cross"} , {x:4, y:-1}, {x:8, y:8}],
+          data: this.graphData,
           fill: false,
           lineTension: 0,
           borderColor: 'red',
@@ -140,11 +152,17 @@ export class AnalysisComponentComponent implements OnInit {
           display: true
         },
         scales: {
+          xAxes: [{
+            type : 'linear',
+            ticks: {
+              beginAtZero: false
+            }
+          }],
           yAxes: [{
             ticks: {
-              beginAtZero: true
+              beginAtZero: false
             }
-          }]
+          }],
         }
       }
     });
