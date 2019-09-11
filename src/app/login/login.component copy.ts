@@ -1,6 +1,6 @@
 import { MessageModule } from 'primeng/message';
 import { Router } from '@angular/router';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -33,8 +33,7 @@ export function matchValues(matchTo: string): (AbstractControl) => ValidationErr
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./login.component.scss']
 })
 
 
