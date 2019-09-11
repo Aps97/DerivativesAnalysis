@@ -93,7 +93,7 @@
                     <div class="row" style="margin-top: 20px">
                             <p-table #at [columns]="cols" [value]="partialTableData" [paginator]="true" [rows]="10" 
                              [scrollable]="true" [style]="{width:'400px'}" ngDefaultControl 
-                             *ngIf="partialTableData.length > 0" selectionMode="multiple" [(selection)]="selectedItems">
+                             *ngIf="partialTableData.length > 0" selectionMode="single" [(selection)]="selectedItems">
                                     <ng-template pTemplate="caption">
                                         <div class="row">
                                             <p-button (onClick)="clearSelections()" style="width: 60px; margin-left: 10px; margin-right: 25px; font-size: 15px">Clear</p-button>       
@@ -119,10 +119,10 @@
                                             <p-button (onClick)="deleteAttachement(index)" icon="fa fa-fw fa-close"></p-button>
                                           </ng-template> -->
                                 </p-table>
-                                <!-- <div class="row">
-                                        <p-button (onClick)="deleteSelections()" 
-                                        style="font-size: 15px">Delete</p-button>
-                                </div> -->
+                                <div class="row">
+                                        <p-button (onClick)="addSelection()" 
+                                        style="font-size: 15px">Add</p-button>
+                                </div>
                     </div>
                 </div>
                 <div class="col-sm-5">

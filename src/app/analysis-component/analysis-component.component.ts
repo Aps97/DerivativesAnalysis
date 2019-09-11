@@ -6,10 +6,14 @@ import { Chart } from 'chart.js';
 import { Derivative } from '../Classes/Dervivative';
 import { AnalysisData } from '../Classes/AnalysisData';
 import { DataService } from '../services/data.service';
+import { AddNewHoldings } from '../Classes/AddNewHolding';
+import { emailId } from '../login/login.component';
 
-class AnalysisTable{
+export class AnalysisTable{
   strategy : String;
   entryPrice : String;
+  position : String;
+  numLots : String;
 }
 
 @Component({
@@ -25,7 +29,7 @@ export class AnalysisComponentComponent implements OnInit {
   selectedSecurity: String;     //holds the selection made from security dropdown
   selectedInstrument : string;  //holds the selection made from instruments dropdown
   selectedPosition: string;  //holds the selected position
-  selectedItems : any = [];
+  selectedItems : any;
   
   maxProfit : number;      //to display the max profit
   maxLoss : number;        //to display the max loss
@@ -44,7 +48,8 @@ export class AnalysisComponentComponent implements OnInit {
   partialTableData: AnalysisTable[] = [];
 
   graphData : any;
-  graphLabels = [1, 2, 36, 499];
+  graphLabels = ['1', '2', '3'];
+  message : any;
 
   constructor(
     private analysisService: DataService
@@ -55,13 +60,15 @@ export class AnalysisComponentComponent implements OnInit {
       {label:'INFY', value:'INFY'},
       {label:'RELIANCE', value:'RELIANCE'},
       {label:'SUNPHARMA', value:'SUNPHARMA'},
-  ];
+    ];
   }
 
   ngOnInit() {
     this.cols = [
       { field: 'strategy', header: 'Strategy' },
-      { field: 'entryPrice', header: 'Entry Price' }
+      { field: 'entryPrice', header: 'Entry Price' },
+      { field: 'position', header: 'Position' },
+      { field: 'numLots', header: 'No. of Lots' }
     ];
   }
 
@@ -87,7 +94,6 @@ export class AnalysisComponentComponent implements OnInit {
     this.postData = new AnalysisData();
     this.postData.price = data.value["price"].toString();
     this.postData.position = this.selectedPosition;
-    //console.log(this.postData.price);
     this.postData.quantity = data.value["quantity"].toString();
 
     let temp = this.selectedInstrument["label"];
@@ -100,12 +106,15 @@ export class AnalysisComponentComponent implements OnInit {
     this.postData.lotsize = this.lotSize.toString();
 
     this.completeTableData.push(this.postData);
-    //console.log(this.completeTableData);
+    console.log(this.completeTableData);
 
     let x = new AnalysisTable();
-    x.strategy = tempInstrument[0] + " " + tempInstrument[1] + " " + tempInstrument[2];
+    x.strategy = this.selectedInstrument["label"];
     x.entryPrice = this.postData.price;
+    x.position = this.postData.position;
+    x.numLots = this.postData.quantity;
     this.partialTableData.push(x);
+    //console.log(x);
 
     let tempResult;
 
@@ -173,15 +182,31 @@ export class AnalysisComponentComponent implements OnInit {
     this.partialTableData = [];
   }
 
-  // deleteSelections(){
-  //   console.log(this.selectedItems);
-  //   this.selectedItems.forEach(function(item) {
-  //     const index = this.partialTableData.indexOf(item);
+  addSelection(){
+    let inputData  = new AddNewHoldings();
+    inputData.numLots = this.postData.quantity;
+    inputData.symbol = this.selectedSecurity["label"];
+    inputData.position = this.selectedPosition;
+    inputData.lotSize = this.lotSize.toString();
+    inputData.userId = emailId;
 
-  //     this.partialTableData.splice(index, 1);
-  // });
-  // //console.log(this.selectedItems);
-  // }
+    let tempInstrument = this.selectedInstrument["label"].split(" ", 4);
+    inputData.expiryDate = tempInstrument[0];
+    inputData.strikePrice = tempInstrument[1];
+    inputData.type = tempInstrument[2];
+    tempInstrument = tempInstrument[3].split("(", 2);
+    tempInstrument = tempInstrument[1].split(")",2);
+    //this.setPrice = tempInstrument[0];
+
+    inputData.price = tempInstrument[0];
+    console.log(inputData);
+    
+    this.analysisService.sendUserHolding(inputData).subscribe(res=>{
+      this.message = res;
+      console.log(this.message);
+    });
+  
+  }
 
   setFields(){
     if(this.selectedInstrument){

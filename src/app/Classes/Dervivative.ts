@@ -1,10 +1,9 @@
 export class Derivative{
-    avgPrice : number;
+    price : number;
     symbol : String;
     instrument : String;
-    numLots : number
+    numLots : number;
     ltp : number;
-	spotPrice : number;
     pl : number;
     per_change : number;
 }
