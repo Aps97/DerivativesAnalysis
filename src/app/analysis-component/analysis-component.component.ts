@@ -36,10 +36,10 @@ export class AnalysisComponentComponent implements OnInit {
   Breakevens : number[];   //to display the list of breakevens
 
   cols : any[];    //list of table columns
-  
+
   LineChart = [];               //to display the chart
   postData : AnalysisData;    //to send analysis data to the service
- 
+
   setPrice : number;
   setQuantity : number;
   lotSize : number;                 //to display in html
@@ -80,7 +80,7 @@ export class AnalysisComponentComponent implements OnInit {
             console.log(this.temp);
 
             for(var x=0; x<this.temp.derivativeList.length; x++){
-              this.instruments.push({label: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " " 
+              this.instruments.push({label: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " "
               + this.temp.derivativeList[x].type + " " + "("+ this.temp.derivativeList[x].premium + ")",
                value: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " " + this.temp.derivativeList[x].type})
             }
@@ -90,19 +90,19 @@ export class AnalysisComponentComponent implements OnInit {
   }
 
   onAnalysisSubmit(data){
-    
+
     this.postData = new AnalysisData();
     this.postData.price = data.value["price"].toString();
     this.postData.position = this.selectedPosition;
     this.postData.quantity = data.value["quantity"].toString();
 
     let temp = this.selectedInstrument["label"];
-   
+
     let tempInstrument = temp.split(" ", 3);
     this.postData.expiryDate = tempInstrument[0];
     this.postData.strikePrice = tempInstrument[1];
     this.postData.type = tempInstrument[2];
-    
+
     this.postData.lotsize = this.lotSize.toString();
 
     this.completeTableData.push(this.postData);
@@ -133,7 +133,7 @@ export class AnalysisComponentComponent implements OnInit {
       console.log(this.graphData);
       this.generateChart();
     });
-    
+
   }
 
   generateChart(){
@@ -216,6 +216,6 @@ export class AnalysisComponentComponent implements OnInit {
       this.setPrice = tempInstrument[0];
       this.setQuantity = 1;
     }
-    
+
   }
 }

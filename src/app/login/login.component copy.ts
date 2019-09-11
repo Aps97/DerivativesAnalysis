@@ -1,6 +1,6 @@
 import { MessageModule } from 'primeng/message';
 import { Router } from '@angular/router';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -10,17 +10,12 @@ export let emailId = '';
 export let firstName = 'Guest';
 export let lastName = '';
 export let userHoldings = [];
-export let gain = [];
-export let gainPerc = [];
 
-//v1, v2, v3, v4, v5, v6
 export function setUser(v1, v2, v3, v4) {
   emailId = v1;
   firstName = v2;
   lastName = v3 ;
   userHoldings = v4;
-  //gain = v5;
-  //gainPerc = v6;
   // console.log(emailId, firstName, lastName, userHoldings);
 }
 
@@ -38,8 +33,7 @@ export function matchValues(matchTo: string): (AbstractControl) => ValidationErr
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./login.component.scss']
 })
 
 
@@ -84,7 +78,6 @@ export class LoginComponent implements OnInit {
       resp = res;
       console.log(resp.message, resp.url);
       setUser(resp.emailId, resp.firstName, resp.lastName, resp.userHoldings);
-        //, resp.gainList, resp.gainPercentageList);
       this.router.navigateByUrl(resp.url);
     });
   }
@@ -93,9 +86,8 @@ export class LoginComponent implements OnInit {
     let resp;
     this.loginService.sendLoginRequest(this.loginForm.value).subscribe(res => {
       resp = res;
-      console.log(resp);
-      setUser(resp.uniqueIdentifier, resp.firstName, resp.lastName, resp.userHolding);
-        //, resp.gainList, resp.gainPercentageList);
+      //console.log(resp);
+      setUser(resp.emailId, resp.firstName, resp.lastName, resp.userHolding);
       this.router.navigateByUrl(resp.url);
     });
   }

@@ -28,6 +28,7 @@ import { DataService } from './services/data.service';
 import { LoginService } from './services/login.service';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
+import {InputTextModule} from 'primeng/inputtext';
 
 
 
@@ -68,7 +69,8 @@ import {MessageModule} from 'primeng/message';
     CurrentHoldingsComponentModule,
     AnalysisComponentModule,
     MessageModule,
-    MessagesModule
+    MessagesModule,
+    InputTextModule,
   ],
   providers: [
     DataService,
