@@ -26,6 +26,7 @@ import { LoginComponent } from './login/login.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import { DataService } from './services/data.service';
 import { LoginService } from './services/login.service';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 
 
 
@@ -52,6 +53,7 @@ import { LoginService } from './services/login.service';
     TableModule,
     BrowserAnimationsModule,
     ButtonModule,
+    ToggleButtonModule,
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent},
       { path: '', component: LoginComponent},
@@ -64,7 +66,8 @@ import { LoginService } from './services/login.service';
     DashboardComponentModule,
     StrategyBuilderComponentModule,
     CurrentHoldingsComponentModule,
-    AnalysisComponentModule
+    AnalysisComponentModule,
+   
   ],
   providers: [
     DataService,
