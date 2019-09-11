@@ -1,16 +1,20 @@
+import { Router } from '@angular/router';
+import { LoginComponent, firstName } from './../login/login.component';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { setUser } from '../login/login.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
+
 export class HeaderComponent implements OnInit {
 
-  firstName : String;
+  temp = firstName;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   items: MenuItem[];
 
@@ -22,7 +26,15 @@ export class HeaderComponent implements OnInit {
       {label: 'Strategy Builder', icon: 'fa fa-fw fa-money', routerLink: ['../strategies']},
   ];
 
-  
   }
+
+  logout() {
+    setUser(null, 'Guest', null, null);
+    this.router.navigateByUrl('/login');
+  }
+
+  // logout(){
+  //   setLoginEmail(null, null);
+  // }
 
 }

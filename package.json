@@ -22,6 +22,7 @@
     "@angular/router": "~8.2.4",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.8.0",
+    "chart.js-scatter": "^1.1.4",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
     "popper.js": "^1.15.0",

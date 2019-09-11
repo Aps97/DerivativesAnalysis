@@ -10,34 +10,43 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-3">
                 <div class="row" style="margin-bottom: 10px; ; margin-top: 10px">
-                    <input type="text" placeholder="Security" disabled="true">
+                    <p-dropdown [(ngModel)]="selectedSecurity" [options]="securities" placeholder="Select a security"
+                    optionLabel="label" autoWidth="false" [style]="{'width':'280px'}"></p-dropdown>
                 </div>
                 <div class="row">
-                    <input type="text" placeholder="Security details" disabled="true">
+                    <p style="font-size: 13px">Selected Security: {{selectedSecurity ? selectedSecurity.label : 'none'}}</p>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input type="text" placeholder="Security details" [ngModel]="lotSize" disabled="true">
+                    </div>
+                   <div class="col-sm-2">
+                       <p-button label="Generate" (onClick)="getInstrumentList()" style="margin-right: 20px"></p-button>
+                   </div>
                 </div>    
             </div>
 
             <div class="col-sm-3">
                 <div class="row" style="margin-bottom: 10px; ; margin-top: 10px">
-                    <p-dropdown [(ngModel)]="selectedSecurity" [options]="symbolDropdown" optionLabel="name"
-                    autoWidth="false" [style]="{'width':'280px'}"></p-dropdown>
+                    <p-dropdown [(ngModel)]="selectedInstrument" [options]="instruments" (onClick)="setFields()"  [filter]="true" placeholder="Select a value"
+                    optionLabel="label" autoWidth="false" [style]="{'width':'280px'}"></p-dropdown>
                 </div>
                 <form #analysisForm="ngForm" (ngSubmit)="onAnalysisSubmit(analysisForm)">
                     <div class="row" style="margin-bottom: 10px; padding-left: 0px">
                         <div class="col-sm-4">
-                            <input min="1" max="5000" type="number" value="0" name="price" style="width:120px; padding-left: 0px" ngModel required>
+                            <input min="1" max="5000" [ngModel]="setPrice" type="number" value="0" name="price" style="width:120px; padding-left: 0px" ngModel required>
                         </div>
                         <div class="col-sm-6" style="margin-bottom: 10px">
-                            <input min="1" max="5000" type="number" value="0" name="quantity" style="width:120px; margin-left: 0px" ngModel required>
+                            <input min="1" max="5000" [ngModel]="setQuantity" type="number" value="0" name="quantity" style="width:120px; margin-left: 0px" ngModel required>
                         </div> 
                     </div>
                  
                     <div class="row" style="margin-bottom: 10px; padding-left: 0px">
                         <div class="col-sm-3">
-                            <p-radioButton name="type" value="Buy" label="Buy" [(ngModel)]="selectedType"></p-radioButton>
+                            <p-radioButton name="position" value="LONG" label="Buy" [(ngModel)]="selectedPosition"></p-radioButton>
                         </div>
                         <div class="col-sm-3" style="padding-right: 0px; width: 15px">
-                            <p-radioButton name="type" value="Sell" label="Sell" [(ngModel)]="selectedType"></p-radioButton>
+                            <p-radioButton name="position" value="SHORT" label="Sell" [(ngModel)]="selectedPosition"></p-radioButton>
                         </div> 
                         <div class="col-sm-3">
                             <button class="btn btn-primary" type="submit"
@@ -61,20 +70,8 @@
         </div>
 
         <div class="row">
-                <div class="col-sm-2"></div>
+                <div class="col-sm-1"></div>
                 <div class="col-sm-3">
-                    <div class="row">
-                        <div class="col-sm-4"><label>Net P/L :</label></div>
-                        <div class="col-sm-4">
-                            <input type="text" placeholder="0" disabled="true" [(ngModel)]="net_p_l">
-                        </div>    
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4"><label>Fair Price :</label></div>
-                        <div class="col-sm-4">
-                            <input type="text" placeholder="0" disabled="true" [(ngModel)]="fairPrice">
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-sm-4"><label>Max Profit :</label></div>
                         <div class="col-sm-4">
@@ -94,14 +91,16 @@
                         </div>
                     </div>
                     <div class="row" style="margin-top: 20px">
-                            <p-table #at [columns]="cols" [value]="summary" [paginator]="true" [rows]="10" 
-                             [scrollable]="true" [style]="{width:'350px'}" ngDefaultControl>
+                            <p-table #at [columns]="cols" [value]="partialTableData" [paginator]="true" [rows]="10" 
+                             [scrollable]="true" [style]="{width:'400px'}" ngDefaultControl 
+                             *ngIf="partialTableData.length > 0" selectionMode="multiple" [(selection)]="selectedItems">
                                     <ng-template pTemplate="caption">
-                                            <div style="text-align: right">       
-                                                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                                                <input type="text" pInputText size="40" placeholder="Global Filter" (input)="at.filterGlobal($event.target.value, 'contains')" style="width:300">
-                                            </div>
-                                        </ng-template>
+                                        <div class="row">
+                                            <p-button (onClick)="clearSelections()" style="width: 60px; margin-left: 10px; margin-right: 25px; font-size: 15px">Clear</p-button>       
+                                            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                            <input type="text" pInputText size="40" placeholder="Global Filter" (input)="at.filterGlobal($event.target.value, 'contains')" style="width:270px">
+                                        </div>
+                                    </ng-template>
                                     <ng-template pTemplate="header" let-columns>
                                         <tr>
                                             <th *ngFor="let col of columns">
@@ -110,13 +109,20 @@
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-summary let-columns="columns">
-                                        <tr>
+                                        <tr [pSelectableRow]="summary">
                                             <td *ngFor="let col of columns">
                                                     {{summary[col.field]}}
                                             </td>
                                         </tr>
                                     </ng-template>
+                                    <!-- <ng-template let-index="partialTableData" pTemplate type="body">
+                                            <p-button (onClick)="deleteAttachement(index)" icon="fa fa-fw fa-close"></p-button>
+                                          </ng-template> -->
                                 </p-table>
+                                <!-- <div class="row">
+                                        <p-button (onClick)="deleteSelections()" 
+                                        style="font-size: 15px">Delete</p-button>
+                                </div> -->
                     </div>
                 </div>
                 <div class="col-sm-5">

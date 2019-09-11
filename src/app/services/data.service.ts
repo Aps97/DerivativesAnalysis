@@ -9,106 +9,25 @@ import { AnalysisData } from '../Classes/AnalysisData';
 })
 export class DataService {
 
-  holdings = [
-    {symbol : "hello",
-    expiryDate : "date",
-	  type : "call",
-	  strikePrice : 4.4,
-	  quantity :45,
-    avgPrice : 10.5,
-    ltp : 3,
-    currValue : 34,
-    pl : 37,
-    per_change : 67},
-
-    {symbol : "hello",
-    expiryDate : "date",
-	  type : "call",
-	  strikePrice : 8.4,
-	  quantity :45,
-    avgPrice : 12.5,
-    ltp : 3,
-    currValue : 34,
-    pl : 37,
-    per_change : 67},
-
-    {symbol : "bye",
-    expiryDate : "date",
-	  type : "call",
-	  strikePrice : 4.4,
-	  quantity :45,
-    avgPrice : 12.5,
-    ltp : 3,
-    currValue : 34,
-    pl : 37,
-    per_change : 67},
-
-    {symbol : "bye",
-    expiryDate : "date",
-	  type : "call",
-	  strikePrice : 4.4,
-	  quantity :45,
-    avgPrice : 12.5,
-    ltp : 3,
-    currValue : 34,
-    pl : 37,
-    per_change : 67},
-
-    {symbol : "bye",
-    expiryDate : "date",
-	  type : "call",
-	  strikePrice : 4.4,
-	  quantity :45,
-    avgPrice : 12.5,
-    ltp : 3,
-    currValue : 34,
-    pl : 37,
-    per_change : 67},
-
-    {symbol : "hello",
-    expiryDate : "date",
-	  type : "call",
-	  strikePrice : 4.4,
-	  quantity :45,
-    avgPrice : 12.5,
-    ltp : 3,
-    currValue : 34,
-    pl : 37,
-    per_change : 67},
-
-    {symbol : "hello",
-    expiryDate : "date",
-	  type : "call",
-	  strikePrice : 4.4,
-	  quantity :45,
-    avgPrice : 12.5,
-    ltp : 3,
-    currValue : 34,
-    pl : 37,
-    per_change : 67}
-  ];
-
   constructor( private httpService: HttpClient ) { }
 
-  getUserHoldings(){
-    //temporary function
-    return this.holdings;
+  getInstrumentsData(selectedSecurity: String) {
+    return this.httpService.post<Derivative[]>('http://localhost:8082/DerivativeAnalysis/rest/derivativelist', selectedSecurity).pipe(map(result => result));
   }
 
-  getHoldingsData() {
-    return this.httpService.get('http://127.0.0.1:5000/holdings').pipe(map(result => result));
-  }
-
-  sendHoldings_getChartData(holdings: Derivative) {
-    return this.httpService.post('http://127.0.0.1:5000/postdata', holdings).pipe(map(result => result));
+  sendHoldings_getChartData(holdings: Array<Derivative>) {
+    return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/generatepayoff', holdings).pipe(map(result => result));
     
   }
 
-  sendUserInput(postData: Derivative) {
-    return this.httpService.post('http://127.0.0.1:5000/postdata', postData).subscribe(res => {
+  sendUserInput(postData: Array<AnalysisData>) {
+    return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/generatepayoff', postData).subscribe(res => {
       console.log(res);
     }, err => (console.log('Error..')) );
   }
+
+
+
 
   // sendFormInput(formdata: FormData) {
   //   return this.httpService.post('http://127.0.0.1:5000/filedata', formdata).subscribe(res => {
@@ -116,7 +35,7 @@ export class DataService {
   //   }, err => (console.log('Error..')) );
   // }
 
-  sendAnalysisInput(postdata : AnalysisData){
-    return this.httpService.post('http://127.0.0.1:5000/holdings', postdata).pipe(map(result => result));
+  sendAnalysisInput(postdata : any){
+    return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/generatepayoff', postdata).pipe(map(result => result));
   }
 }
