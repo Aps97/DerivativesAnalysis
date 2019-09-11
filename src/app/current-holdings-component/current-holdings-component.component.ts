@@ -35,8 +35,10 @@ export class CurrentHoldingsComponentComponent implements OnInit {
     //       console.log(this.holdings);
     //     });
 
-    this.holdings = userHoldings;
     
+    this.holdings = userHoldings;
+    console.log(this.holdings);
+
     for(let x=0; x<this.holdings.length; x++){
       
         let temp = new Derivative();

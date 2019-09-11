@@ -12,16 +12,16 @@ export class DataService {
   constructor( private httpService: HttpClient ) { }
 
   getInstrumentsData(selectedSecurity: String) {
-    return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/derivativelist', selectedSecurity).pipe(map(result => result));
+    return this.httpService.post<Derivative[]>('http://localhost:8082/DerivativeAnalysis/rest/derivativelist', selectedSecurity).pipe(map(result => result));
   }
 
   sendHoldings_getChartData(holdings: Array<Derivative>) {
-    return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/sendholdings', holdings).pipe(map(result => result));
+    return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/generatepayoff', holdings).pipe(map(result => result));
     
   }
 
-  sendUserInput(postData: Derivative) {
-    return this.httpService.post('http://127.0.0.1:5000/postdata', postData).subscribe(res => {
+  sendUserInput(postData: Array<AnalysisData>) {
+    return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/generatepayoff', postData).subscribe(res => {
       console.log(res);
     }, err => (console.log('Error..')) );
   }
@@ -35,7 +35,7 @@ export class DataService {
   //   }, err => (console.log('Error..')) );
   // }
 
-  sendAnalysisInput(postdata : AnalysisData){
+  sendAnalysisInput(postdata : any){
     return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/generatepayoff', postdata).pipe(map(result => result));
   }
 }

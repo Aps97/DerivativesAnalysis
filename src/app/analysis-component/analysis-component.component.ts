@@ -7,6 +7,11 @@ import { Derivative } from '../Classes/Dervivative';
 import { AnalysisData } from '../Classes/AnalysisData';
 import { DataService } from '../services/data.service';
 
+class AnalysisTable{
+  strategy : String;
+  entryPrice : number;
+}
+
 @Component({
   selector: 'app-analysis-component',
   templateUrl: './analysis-component.component.html',
@@ -14,33 +19,31 @@ import { DataService } from '../services/data.service';
 })
 export class AnalysisComponentComponent implements OnInit {
 
-  securities: SelectItem[];
-  instruments: SelectItem[];
+  securities: SelectItem[];  //list of 5 securities in the dropdown
+  instruments: SelectItem[];  //list of derivatives after security selection
 
-  selectedSecurity: String;
-  selectedInstrument: String;
+  selectedSecurity: String;     //holds the selection made from security dropdown
+  selectedInstrument : string;  //holds the selection made from instruments dropdown
+  selectedPosition: string;  //holds the selected position
+  selectedItems : any = [];
+  
+  maxProfit : number;      //to display the max profit
+  maxLoss : number;        //to display the max loss
+  Breakevens : number[];   //to display the list of breakevens
 
-  result : any;
-
-  analysisForm = this.fb.group({
-    selectedCity: ['', Validators.required],
-    //passwordLogin: ['', Validators.required],
-  });
-
-  selectedPosition: string;
-  net_p_l : number;
-  fairPrice : number;
-  maxProfit : number;
-  maxLoss : number;
-  Breakevens : number;
-  cols : any[];
-  summary : any;
-  LineChart = [];
-  symbolDropdown : String[];
-  postData : AnalysisData;
+  cols : any[];    //list of table columns
+  
+  LineChart = [];               //to display the chart
+  postData : AnalysisData;    //to send analysis data to the service
+ 
+  setPrice : number;
+  setQuantity : number;
+  lotSize : number;                 //to display in html
+  temp: any;                        //receives list of derivatives from the service
+  completeTableData: AnalysisData[] = [];   //holds the list of selected derivatives
+  partialTableData: AnalysisTable[] = [];
 
   constructor(
-    private fb : FormBuilder,
     private analysisService: DataService
   ) {
     this.securities = [
@@ -53,15 +56,6 @@ export class AnalysisComponentComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    //uncomment after connecting with backend
-    // this.derivativeService.getHoldingsData().subscribe(
-    //   res => {
-    //       this.summary = res;
-    //       console.log(this.summary);
-    //     });
-    //this.symbolDropdown = this.summary.symbol;
-
     this.cols = [
       { field: 'strategy', header: 'Strategy' },
       { field: 'entryPrice', header: 'Entry Price' }
@@ -69,59 +63,62 @@ export class AnalysisComponentComponent implements OnInit {
   }
 
   getInstrumentList(){
-    let derivativeList;
     this.analysisService.getInstrumentsData(this.selectedSecurity).subscribe(
         res => {
-            derivativeList = res;
-            console.log(derivativeList);
-
             this.instruments = [];
-            for(let x=0; x<derivativeList.length; x++){
-               this.instruments.push({label: derivativeList[x].expiryDate + " " + derivativeList[x].strikePrice + " " + derivativeList[x].type,
-              value: derivativeList[x].expiryDate + " " + derivativeList[x].strikePrice + " " + derivativeList[x].type});
+            this.temp = res;
+            console.log(this.temp);
+
+            for(var x=0; x<this.temp.derivativeList.length; x++){
+              this.instruments.push({label: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " " 
+              + this.temp.derivativeList[x].type + " " + "("+ this.temp.derivativeList[x].premium + ")",
+               value: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " " + this.temp.derivativeList[x].type})
             }
 
-            console.log(this.instruments);
+            this.lotSize = this.temp.derivativeList[0].lotSize;
           });
   }
 
   onAnalysisSubmit(data){
     
-    this.postData.price = data.price;
+    this.postData = new AnalysisData();
+    this.postData.price = data.value["price"];
     this.postData.position = this.selectedPosition;
-    this.postData.quantity = data.quantity;
+    this.postData.quantity = data.value["quantity"];
 
-    let tempInstrument = this.selectedSecurity.split(" ", 3);
-
+    let temp = this.selectedInstrument["label"];
+   
+    let tempInstrument = temp.split(" ", 3);
     this.postData.expiryDate = tempInstrument[0];
     this.postData.strikePrice = tempInstrument[1];
     this.postData.type = tempInstrument[2];
+    
+    this.postData.lotsize = this.lotSize;
 
-    console.log(this.postData);
+    this.completeTableData.push(this.postData);
+    console.log(this.completeTableData);
+
+    let x = new AnalysisTable();
+    x.strategy = tempInstrument[0] + " " + tempInstrument[1] + " " + tempInstrument[2];
+    x.entryPrice = this.postData.price;
+    this.partialTableData.push(x);
+
     let tempResult;
-    this.analysisService.sendAnalysisInput(this.postData).subscribe(res=>{
-      tempResult = res;
-      // this.net_p_l = tempResult.net_p_l;
-      // this.fairPrice = tempResult.fairPrice;
-      // this.maxProfit = tempResult.maxProfit;
-      // this.maxLoss = tempResult.maxLoss;
-      // this.Breakevens = tempResult.Breakevens;
-      console.log(tempResult);
-    });
 
-    this.generateChart();
-    this.summary.push(this.postData);
+    
+    // this.analysisService.sendAnalysisInput(this.completeTableData).subscribe(res=>{
+    //   tempResult = res;
+    //   // this.maxProfit = tempResult.maxProfit;
+    //   // this.maxLoss = tempResult.maxLoss;
+    //   // this.Breakevens = tempResult.Breakevens;
+    //   console.log(tempResult);
+    // });
+
+    //this.generateChart();
+    
   }
 
   generateChart(){
-
-    let temp : Derivative[];
-
-    temp = this.summary;
-    this.analysisService.sendHoldings_getChartData(temp).subscribe(res=>{
-
-      //shift the chart generation here after retrieving the x-y coordinates.
-    });
 
     this.LineChart = new Chart('lineChart', {
       type: 'line',
@@ -151,5 +148,31 @@ export class AnalysisComponentComponent implements OnInit {
         }
       }
     });
+  }
+
+  clearSelections(){
+    this.completeTableData = [];
+    this.partialTableData = [];
+  }
+
+  // deleteSelections(){
+  //   console.log(this.selectedItems);
+  //   this.selectedItems.forEach(function(item) {
+  //     const index = this.partialTableData.indexOf(item);
+
+  //     this.partialTableData.splice(index, 1);
+  // });
+  // //console.log(this.selectedItems);
+  // }
+
+  setFields(){
+    if(this.selectedInstrument){
+      let tempInstrument = this.selectedInstrument["label"].split(" ", 4);
+      tempInstrument = tempInstrument[3].split("(", 2);
+      tempInstrument = tempInstrument[1].split(")",2);
+      this.setPrice = tempInstrument[0];
+      this.setQuantity = 1;
+    }
+    
   }
 }

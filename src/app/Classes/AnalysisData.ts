@@ -1,4 +1,4 @@
-export interface AnalysisData{
+export class AnalysisData{
     expiryDate : String;
     strikePrice : String;
     type : String;
@@ -6,4 +6,5 @@ export interface AnalysisData{
     price : number;
     quantity : number;
     position : String;
+    lotsize : number;
   }
