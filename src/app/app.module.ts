@@ -1,7 +1,8 @@
+import { AuthGuard } from './auth.guard';
 import { MessageService } from 'primeng/api';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { MatTableModule } from  '@angular/material';
+import { MatTableModule } from '@angular/material';
 import { RadioButtonModule, TooltipModule } from 'primeng/primeng';
 import {DropdownModule} from 'primeng/dropdown';
 import {TableModule} from 'primeng/table';
@@ -62,11 +63,12 @@ import {ToastModule} from 'primeng/toast';
     MatTableModule,
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent},
-      { path: '', component: LoginComponent},
-      { path: 'app/dashboard', component: DashboardComponentComponent},
-      { path: 'app/holdings', component: CurrentHoldingsComponentComponent},
-      { path: 'app/analysis', component: AnalysisComponentComponent},
-      { path: 'app/strategies', component: StrategyBuilderComponentComponent}
+      { path: '', redirectTo: '/login', pathMatch: 'full'},
+      { path: 'app/dashboard', component: DashboardComponentComponent, canActivate: [AuthGuard]},
+      { path: 'app/holdings', component: CurrentHoldingsComponentComponent, canActivate: [AuthGuard]},
+      { path: 'app/analysis', component: AnalysisComponentComponent, canActivate: [AuthGuard]},
+      { path: 'app/strategies', component: StrategyBuilderComponentComponent, canActivate: [AuthGuard]},
+      { path: '**', redirectTo: '/login'}
     ]),
     TabMenuModule,
     DashboardComponentModule,
@@ -82,6 +84,7 @@ import {ToastModule} from 'primeng/toast';
     DataService,
     LoginService,
     MessageService,
+    AuthGuard,
   ],
   bootstrap: [AppComponent]
 })

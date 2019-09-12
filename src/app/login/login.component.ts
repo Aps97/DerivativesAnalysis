@@ -7,10 +7,10 @@ import { Validators, FormControl, FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
-export let emailId = '';
+export let emailId = null;
 export let firstName = 'Guest';
-export let lastName = '';
-export let userHoldings : any = [];
+export let lastName = null;
+export let userHoldings = [];
 export let gain = [];
 export let gainPerc = [];
 
