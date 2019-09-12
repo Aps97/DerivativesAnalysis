@@ -8,7 +8,7 @@ import { strategyInput } from '../strategy-builder-component/strategy-builder-co
 })
 export class StrategyService {
 
-  strategies = [
+  strategies1 = [
   ];
 
   constructor( private httpService: HttpClient ) { }

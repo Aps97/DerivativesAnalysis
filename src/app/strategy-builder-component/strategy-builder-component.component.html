@@ -42,35 +42,37 @@
         <div class="row" style="margin-top: 30px"></div>
         <div class="col-sm-3"  ></div>
             <div class="col-sm-7"></div>
-            <div><p-button label="Go" style="margin-left: 30px; margin-top: 15px" (onClick)="getStrategyData()"></p-button>
+            <div><p-button label="Go" style="margin-left: 30px; margin-top: 15px"(onClick)="getStrategyData()"></p-button>
             <div class="row" style="margin-top: 30px">
-            <p-table #at [columns]="cols" [value]="strategies1" [paginator]="true" *ngIf="strategies1.length > 0"
-                [scrollable]="true" ngDefaultControl>
-                <!-- <ng-template pTemplate="caption">
-                     <div style="text-align: right">       
-                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                        <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
-                    </div>
-                </ng-template> -->
-            <ng-template pTemplate="header" let-columns>
-                <tr>
-                    <th *ngFor="let col of columns">
-                        {{col.header}}
-                    </th>
-                    <!-- <th>
-                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                    </th> -->
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body"  let-strategies1 let-columns>
-                <tr [pSelectableRow]="strategies1">
-                    <td *ngFor="let col of columns">
-                            {{strategies1[col.field]}}
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </div>
+                <mat-table [dataSource]="strategies1">
+                    <!-- [...] -->
+                    <ng-container  matColumnDef="strategyName">
+                        <mat-header-cell *matHeaderCellDef>strategyName</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.strategyName}}</mat-cell>
+                        </ng-container>
+
+                    <ng-container  matColumnDef="maxProfit">
+                        <mat-header-cell *matHeaderCellDef>maxProfit</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.maxProfit}}</mat-cell>
+                        </ng-container>
+
+                    <ng-container  matColumnDef="maxLoss">
+                        <mat-header-cell *matHeaderCellDef>maxLoss</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.maxLoss}}</mat-cell>
+                         </ng-container>
+
+                    <ng-container  matColumnDef="breakevens">
+                        <mat-header-cell *matHeaderCellDef>breakevens</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.breakevens}}</mat-cell>
+                        </ng-container>
+                    
+                        <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: tableColumns"></mat-row>
+                
+                    </mat-table>
+            
+            
+            </div>
 </div>
 </div>
 </div>

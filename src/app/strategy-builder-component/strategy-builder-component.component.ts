@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Derivative } from '../Classes/Dervivative';
-import { DataService } from '../services/data.service';
-// import { Chart } from 'chart.js';
-import {FormBuilder, FormGroup} from '@angular/forms';
+// import { Derivative } from '../Classes/Dervivative';
+// import { DataService } from '../services/data.service';
+// // import { Chart } from 'chart.js';
+// import {FormBuilder, FormGroup} from '@angular/forms';
 import { SelectItem } from 'primeng/primeng';
 import { Strategies } from '../Classes/Strategies';
 import { StrategyService } from '../services/strategies.service';
+// import { MatTableModule } from '@angular/material';
 
 export class strategyInput{
   security : String;
@@ -33,8 +34,9 @@ export class StrategyBuilderComponentComponent implements OnInit {
   selectedExpiry : String;
   selectedTarget : number;
   tableData: Strategies;
-    
-  constructor(private strategyService: StrategyService,
+  dataSource: Strategies;
+  tableColumns  :  string[]=['strategyName','maxProfit','maxLoss','breakevens'];
+  constructor(private strategyService: StrategyService
                //private formBuilder: FormBuilder
                
                ) {
@@ -68,6 +70,7 @@ export class StrategyBuilderComponentComponent implements OnInit {
     strategyData.target = this.selectedTarget.toString();
     console.log("I'm inside");
     console.log(strategyData);
+    
     this.strategyService.getStrategies(strategyData).subscribe(
         res => {
             this.strategies1 = [];
@@ -75,15 +78,18 @@ export class StrategyBuilderComponentComponent implements OnInit {
             
             console.log("I'm inside 2");
             console.log(this.temp);
-
+            // console.log(this.temp.strategies1.length);
             for(var x=0; x<this.temp.strategies1.length; x++){
-              console.log("in loop");
+              //console.log("in loop");
               let tableData = new Strategies();
               tableData.breakevens =  this.temp.strategies1[x].breakevens;
+              //console.log(tableData.breakevens);
               tableData.maxLoss= this.temp.strategies1[x].maxLoss;
+              //console.log(tableData.maxLoss);
               tableData.maxProfit= this.temp.strategies1[x].maxProfit; 
-              //temp.holdings= this.tableData.strategies1[x].holdings;
+              //tableData.holdings= this.temp.strategies1[x].holdings;
               tableData.strategyName= this.temp.strategies1[x].strategyName;
+              console.log(tableData.strategyName);
               this.strategies1.push(tableData);
                                 
             }
@@ -92,15 +98,26 @@ export class StrategyBuilderComponentComponent implements OnInit {
 
             // this.lotSize = this.temp.derivativeList[0].lotSize;
           });
-  }
+  } 
 
   ngOnInit() {
+    let resp;
+    let strategyData = new strategyInput();
+    strategyData.security = "";
+    strategyData.expiryDate = "";
+    strategyData.views = "";
+    strategyData.target = "0";
+    this.strategyService.getStrategies(strategyData).subscribe((result)=>{
+      resp=result;    
+      this.dataSource =  resp.strategies1;
+    })
     this.cols =
      [ 
       { field: 'strategyName', header: 'Strategy Name' },
       { field: 'maxProfit', header: 'Max Profit' },
       { field: 'maxLoss', header: 'Max Loss' },
-      { field: 'breakevens', header: 'Breakeven' },
+      { field: 'breakevens', header: 'Breakeven' }
+     // { field: 'holdings', header: 'Holdings' },
   ];
   }
 

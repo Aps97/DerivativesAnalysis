@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { MatTableModule } from  '@angular/material';
 import { RadioButtonModule, TooltipModule } from 'primeng/primeng';
 import {DropdownModule} from 'primeng/dropdown';
 import {TableModule} from 'primeng/table';
@@ -56,6 +56,7 @@ import {ToastModule} from 'primeng/toast';
     TableModule,
     BrowserAnimationsModule,
     ButtonModule,
+    MatTableModule,
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent},
       { path: '', component: LoginComponent},

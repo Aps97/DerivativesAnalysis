@@ -10,6 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class AppComponent {
   title = 'derivatives-analysis-app';
 
+
   constructor() {
   }
 
