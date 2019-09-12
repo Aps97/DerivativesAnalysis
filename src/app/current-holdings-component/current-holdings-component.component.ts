@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Derivative } from '../Classes/Dervivative';
 import { DataService } from '../services/data.service';
 import { Chart } from 'chart.js';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import { userHoldings } from '../login/login.component';
-//import { setLoginEmail, loginEmail } from '../login/login.component';
+import { userHoldings, gain, gainPerc } from '../login/login.component';
 
 @Component({
   selector: 'app-current-holdings',
@@ -42,31 +40,37 @@ export class CurrentHoldingsComponentComponent implements OnInit {
     for(let x=0; x<this.holdings.length; x++){
       
         let temp = new Derivative();
-        temp.avgPrice = this.holdings[x].avgPrice;
+        if(this.holdings[x].type == "FUT"){
+          temp.price = this.holdings[x].avgPrice;
+        }
+        else{
+          temp.price = this.holdings[x].premium;
+        }
+        
         temp.symbol = this.holdings[x].symbol;
-        temp.instrument = this.holdings[x].expiryDate + " " + this.holdings[x].position + " " + this.holdings[x].type;
+        temp.instrument = this.holdings[x].expiryDate + " " + this.holdings[x].strikePrice + " " + this.holdings[x].type;
         temp.numLots = this.holdings[x].numLots;
-        temp.ltp = this.holdings[x].ltp;
-        temp.spotPrice = this.holdings[x].spotPrice;
-        temp.pl = this.holdings[x].avgPrice;
-        temp.per_change = this.holdings[x].avgPrice;
+        temp.ltp = this.holdings[x].spotPrice;
+        temp.pl = 0;
+        temp.per_change = 0;
+        //temp.pl = gain[x];
+        //temp.per_change = gainPerc[x];
         this.tableData.push(temp);
     }
 
     this.cols = [
         { field: 'symbol', header: 'Symbol' },
         { field: 'instrument', header: 'Instrument' },
-        { field: 'lotSize', header: 'Quantity' },
-        { field: 'avgPrice', header: 'Average Price' },
+        { field: 'numLots', header: 'Quantity' },
+        { field: 'price', header: 'Price' },
         { field: 'ltp', header: 'LTP' },
-        { field: 'strikePrice', header: 'Current Value' },
         { field: 'pl', header: 'Profit/Loss' },
         { field: 'per_change', header: '% Change' }
     ];
   }
 
   selectedRow(){
-    console.log(this.selectedHoldings);
+    //console.log(this.selectedHoldings);
   }
 
   clearChart(){
@@ -78,9 +82,9 @@ export class CurrentHoldingsComponentComponent implements OnInit {
 
     let response;
     let postData = this.selectedHoldings;
-    this.derivativeService.sendHoldings_getChartData(postData).subscribe(result =>{
-        response = result;
-    });
+    // this.derivativeService.sendHoldings_getChartData(postData).subscribe(result =>{
+    //     response = result;
+    // });
 
     this.LineChart = new Chart('lineChart', {
       type: 'line',
