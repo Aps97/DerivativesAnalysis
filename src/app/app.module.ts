@@ -29,7 +29,7 @@ import { LoginService } from './services/login.service';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {InputTextModule} from 'primeng/inputtext';
-
+import {ToastModule} from 'primeng/toast';
 
 
 @NgModule({
@@ -72,6 +72,7 @@ import {InputTextModule} from 'primeng/inputtext';
     MessageModule,
     MessagesModule,
     InputTextModule,
+    ToastModule,
   ],
   providers: [
     DataService,

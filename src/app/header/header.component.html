@@ -1,13 +1,22 @@
-<nav class="navbar navbar-fixed-top navbar" style="position:relative; top:9px;">
-  <p-tabMenu [model]="items"></p-tabMenu>
-  <div class="right">
-    <div class="left">
-      <p-message severity="success" text="Welcome, {{temp}}"></p-message>
-    </div>
-    <div class="right">
-      <p-button label="Logout" (onClick)="logout()"></p-button>
-    </div>
+<div class="bgimg"></div>
+
+<div class="banner">
+
+  <div class="citi"></div>
+
+  <div class="right" style="margin-right: 15px; margin-top: 25px">
+      <div class="left">
+        <p-message severity="success" text="Welcome, {{temp}}"></p-message>
+      </div>
+      <div class="right">
+        <p-button label="Logout" (onClick)="logout()"></p-button>
+        </div>
   </div>
+
+</div>
+
+<nav class="navbar navbar-fixed-top navbar" style="position:relative; top:90px">
+  <p-tabMenu [model]="items"></p-tabMenu>
 </nav>
 
 <div class="app-container" fxFlex>
