@@ -3,6 +3,7 @@ import { LoginComponent, firstName } from './../login/login.component';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { setUser } from '../login/login.component';
+import { setHoldings } from '../login/login.component';
 
 @Component({
   selector: 'app-header',
@@ -29,7 +30,8 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    setUser(null, 'Guest', null, null, null, null);
+    setUser(null, 'Guest', null, null, null);
+    setHoldings(null);
     this.router.navigateByUrl('/login');
   }
 

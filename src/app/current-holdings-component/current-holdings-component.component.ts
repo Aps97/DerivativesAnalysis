@@ -55,21 +55,21 @@ export class CurrentHoldingsComponentComponent implements OnInit {
         temp.instrument = this.holdings[x].expiryDate + " " + this.holdings[x].strikePrice + " " + this.holdings[x].type;
         temp.position = this.holdings[x].position;
         temp.numLots = this.holdings[x].numLots;
-        temp.ltp = this.holdings[x].spotPrice;
+        temp.ltp = this.holdings[x].ltp;
         temp.pl = gain[x];
         temp.per_change = gainPerc[x];
         this.tableData.push(temp);
     }
 
     this.cols = [
-        { field: 'symbol', header: 'Symbol' },
-        { field: 'instrument', header: 'Instrument' },
-        { field: 'position', header: 'Position' },
-        { field: 'numLots', header: 'Quantity' },
-        { field: 'price', header: 'Price' },
-        { field: 'ltp', header: 'LTP' },
-        { field: 'pl', header: 'Profit/Loss' },
-        { field: 'per_change', header: '% Change' }
+        { field: 'symbol', header: 'Symbol', width:'12.5%' },
+        { field: 'instrument', header: 'Instrument', width:'15%' },
+        { field: 'position', header: 'Position', width:'12.5%' },
+        { field: 'numLots', header: 'Quantity', width:'12.5%' },
+        { field: 'price', header: 'Price', width:'12%' },
+        { field: 'ltp', header: 'LTP', width:'10.5%' },
+        { field: 'pl', header: 'Profit/Loss', width:'12.5%' },
+        { field: 'per_change', header: '% Change', width:'12.5%' }
     ];
   }
 

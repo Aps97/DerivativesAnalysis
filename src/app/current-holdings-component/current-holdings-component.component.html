@@ -1,10 +1,10 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-1"></div>
+        <!-- <div class="col-sm-1"></div> -->
         <div class="col-sm-10">
-            <div class="row" style="margin-top: 30px">
-                    <p-table #dt [columns]="cols" [value]="tableData" [paginator]="true" [rows]="10" selectionMode="single" 
-                    [(selection)]="selectedHolding" [scrollable]="true" [style]="{width:'1200px'}" ngDefaultControl>
+            <div class="row" style="margin-top: 30px; margin-left: 20px">
+                    <p-table #dt [columns]="cols" [value]="tableData" [paginator]="true" [rows]="15" selectionMode="single" 
+                    [(selection)]="selectedHolding" [scrollable]="true" [style]="{width:'1400px'}" ngDefaultControl>
                             <ng-template pTemplate="caption">
                                     <div style="text-align: right">       
                                         <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
@@ -13,22 +13,16 @@
                                 </ng-template>
                             <ng-template pTemplate="header" let-columns>
                                 <tr>
-                                    <th *ngFor="let col of columns">
+                                    <th *ngFor="let col of columns" [ngStyle]="{'width': col.width}" style="text-align: center">
                                         {{col.header}}
                                     </th>
-                                    <!-- <th>
-                                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                    </th> -->
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-holding let-columns="columns">
                                 <tr [pSelectableRow]="holding" (click)="selectedRow()">
-                                    <td *ngFor="let col of columns">
+                                    <td *ngFor="let col of columns" [ngStyle]="{'width': col.width}" style="text-align: center">
                                             {{holding[col.field]}}
                                     </td>
-                                    <!-- <td>
-                                        <p-tableCheckbox [value]="holding"></p-tableCheckbox>
-                                    </td> -->
                                 </tr>
                             </ng-template>
                         </p-table>
@@ -38,19 +32,16 @@
                 <div class="col-sm-8"></div>
                 <div class="col-sm-3">
                     <p-button label="Generate Chart" (onClick)="createChart()" style="margin-right: 20px"></p-button>
-                    <p-button label="Clear Chart" (onClick)="clearChart()" style="width: 130px"></p-button>
+                    <!-- <p-button label="Clear Chart" (onClick)="clearChart()" style="width: 130px"></p-button> -->
                 </div>  
             </div>
             <div class="row"><br></div>
             <div class="row">
                 <div class="col-sm-6">
-                        <!-- <canvas id="lineChart"></canvas> -->
                         <div id="chartdiv" style="width: 100%; height: 500px"></div>
                 </div>
-                <div class="col-sm-6">column 2</div>
+                <div class="col-sm-6"></div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- [rowStyleClass]="highlightSelectedRow()" -->

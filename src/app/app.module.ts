@@ -8,6 +8,7 @@ import {ChartModule} from 'primeng/chart';
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import {ButtonModule} from 'primeng/button';
+import {AccordionModule} from 'primeng/accordion';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule} from '@angular/router';
@@ -50,6 +51,7 @@ import {ToastModule} from 'primeng/toast';
     ChartModule,
     TooltipModule,
     HttpClientModule,
+    AccordionModule,
     AutoCompleteModule,
     FormsModule,
     ReactiveFormsModule,
