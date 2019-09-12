@@ -2,14 +2,15 @@
 
 <div class="banner">
 
-  <div class="citi"></div>
-
+  <a (click)="home()">
+    <div class="citi"></div>
+  </a>
   <div class="right" style="margin-right: 3vw; margin-top: 25px">
       <div class="left">
         <button class="btn btn-welcome">Welcome, {{temp}}</button>
       </div>
       <div class="right">
-        <button class="btn btn-logout" (onClick)="logout()">Log Out</button>
+        <button class="btn btn-logout" (click)="logout()">Log Out</button>
       </div>
   </div>
 
@@ -19,6 +20,6 @@
   <p-tabMenu [model]="items"></p-tabMenu>
 </nav>
 
-<div class="app-container" fxFlex>
+<div class="app-container">
   <router-outlet></router-outlet>
  </div>
