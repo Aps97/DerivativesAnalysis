@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import { Derivative } from '../Classes/Dervivative';
 import { AnalysisData } from '../Classes/AnalysisData';
+import { AnalysisTable } from '../analysis-component/analysis-component.component';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,8 @@ export class DataService {
     return this.httpService.post<Derivative[]>('http://localhost:8082/DerivativeAnalysis/rest/derivativeList', selectedSecurity).pipe(map(result => result));
   }
 
-  sendHoldings_getChartData(holdings: Array<Derivative>) {
-    return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/generatepayoff', holdings).pipe(map(result => result));
+  sendUserHolding(holding: any) {
+    return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/senduserinput', holding).pipe(map(result => result));
     
   }
 
