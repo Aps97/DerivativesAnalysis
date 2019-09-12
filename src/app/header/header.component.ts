@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    setUser(null, 'Guest', null, null);
+    setUser(null, 'Guest', null, null, null, null);
     this.router.navigateByUrl('/login');
   }
 

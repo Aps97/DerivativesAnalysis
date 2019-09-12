@@ -67,10 +67,8 @@ export class CurrentHoldingsComponentComponent implements OnInit {
         temp.instrument = this.holdings[x].expiryDate + " " + this.holdings[x].strikePrice + " " + this.holdings[x].type;
         temp.numLots = this.holdings[x].numLots;
         temp.ltp = this.holdings[x].spotPrice;
-        temp.pl = 0;
-        temp.per_change = 0;
-        //temp.pl = gain[x];
-        //temp.per_change = gainPerc[x];
+        temp.pl = gain[x];
+        temp.per_change = gainPerc[x];
         this.tableData.push(temp);
     }
 

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { RadioButtonModule } from 'primeng/primeng';
+import { RadioButtonModule, TooltipModule } from 'primeng/primeng';
 import {DropdownModule} from 'primeng/dropdown';
 import {TableModule} from 'primeng/table';
 import {ChartModule} from 'primeng/chart';
@@ -48,6 +48,7 @@ import {InputTextModule} from 'primeng/inputtext';
     RadioButtonModule,
     DropdownModule,
     ChartModule,
+    TooltipModule,
     HttpClientModule,
     AutoCompleteModule,
     FormsModule,

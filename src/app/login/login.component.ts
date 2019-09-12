@@ -14,13 +14,13 @@ export let gain = [];
 export let gainPerc = [];
 
 //v1, v2, v3, v4, v5, v6
-export function setUser(v1, v2, v3, v4) {
+export function setUser(v1, v2, v3, v4, v5, v6) {
   emailId = v1;
   firstName = v2;
   lastName = v3 ;
   userHoldings = v4;
-  //gain = v5;
-  //gainPerc = v6;
+  gain = v5;
+  gainPerc = v6;
   // console.log(emailId, firstName, lastName, userHoldings);
 }
 
@@ -83,8 +83,7 @@ export class LoginComponent implements OnInit {
     this.loginService.sendCreateRequest(this.createAccountForm.value).subscribe(res => {
       resp = res;
       console.log(resp.message, resp.url);
-      setUser(resp.emailId, resp.firstName, resp.lastName, resp.userHoldings);
-        //, resp.gainList, resp.gainPercentageList);
+      setUser(resp.emailId, resp.firstName, resp.lastName, resp.userHoldings, resp.gainList, resp.gainPercentageList);
       this.router.navigateByUrl(resp.url);
     });
   }
@@ -94,8 +93,7 @@ export class LoginComponent implements OnInit {
     this.loginService.sendLoginRequest(this.loginForm.value).subscribe(res => {
       resp = res;
       console.log(resp);
-      setUser(resp.uniqueIdentifier, resp.firstName, resp.lastName, resp.userHolding);
-        //, resp.gainList, resp.gainPercentageList);
+      setUser(resp.uniqueIdentifier, resp.firstName, resp.lastName, resp.userHolding, resp.gainList, resp.gainPercentageList);
       this.router.navigateByUrl(resp.url);
     });
   }

@@ -52,7 +52,8 @@ export class AnalysisComponentComponent implements OnInit {
 
   setPrice : number;
   setQuantity : number;
-  lotSize : number;                 //to display in html
+  lotSize = "Lot Size ";   
+  uValue = "U.Value ";              //to display in html
   temp: any;                        //receives list of derivatives from the service
   completeTableData: AnalysisData[] = [];   //holds the list of selected derivatives
   partialTableData: AnalysisTable[] = [];
@@ -60,6 +61,7 @@ export class AnalysisComponentComponent implements OnInit {
   graphData : any;
   graphLabels = ['1', '2', '3'];
   message : any;
+  disableButton = true;
 
   constructor(
     private zone: NgZone,
@@ -74,11 +76,6 @@ export class AnalysisComponentComponent implements OnInit {
     ];
   }
 
-  // ngAfterViewInit() {
-
-    
-  // }
-
   // ngOnDestroy() {
   //   this.zone.runOutsideAngular(() => {
   //     if (this.chart) {
@@ -92,25 +89,29 @@ export class AnalysisComponentComponent implements OnInit {
       { field: 'strategy', header: 'Strategy' },
       { field: 'entryPrice', header: 'Entry Price' },
       { field: 'position', header: 'Position' },
-      { field: 'numLots', header: 'No. of Lots' }
+      { field: 'numLots', header: 'No. of Lots' },
+      { field: '', header: ''}
     ];
   }
 
   getInstrumentList(){
-    this.analysisService.getInstrumentsData(this.selectedSecurity).subscribe(
-        res => {
-            this.instruments = [];
-            this.temp = res;
-            console.log(this.temp);
+    if(this.selectedSecurity){
+      this.analysisService.getInstrumentsData(this.selectedSecurity).subscribe(
+          res => {
+              this.instruments = [];
+              this.temp = res;
+              console.log(this.temp);
 
-            for(var x=0; x<this.temp.derivativeList.length; x++){
-              this.instruments.push({label: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " "
-              + this.temp.derivativeList[x].type + " " + "("+ this.temp.derivativeList[x].premium + ")",
-               value: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " " + this.temp.derivativeList[x].type})
-            }
+              for(var x=0; x<this.temp.derivativeList.length; x++){
+                this.instruments.push({label: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " "
+                + this.temp.derivativeList[x].type + " " + "("+ this.temp.derivativeList[x].premium + ")",
+                value: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " " + this.temp.derivativeList[x].type})
+              }
 
-            this.lotSize = this.temp.derivativeList[0].lotSize;
-          });
+              this.lotSize = "Lot Size " + this.temp.derivativeList[0].lotSize.toString();
+              this.uValue = "U.Value " + this.temp.derivativeList[0].underlyingValue.toString();
+            });
+    }
   }
 
   onAnalysisSubmit(data){
@@ -127,7 +128,8 @@ export class AnalysisComponentComponent implements OnInit {
     this.postData.strikePrice = tempInstrument[1];
     this.postData.type = tempInstrument[2];
 
-    this.postData.lotsize = this.lotSize.toString();
+    temp = this.lotSize.split(" ", 3);
+    this.postData.lotsize = temp[2];
 
     this.completeTableData.push(this.postData);
     console.log(this.completeTableData);
@@ -265,7 +267,8 @@ export class AnalysisComponentComponent implements OnInit {
     inputData.numLots = this.postData.quantity;
     inputData.symbol = this.selectedSecurity["label"];
     inputData.position = this.selectedPosition;
-    inputData.lotSize = this.lotSize.toString();
+    let temp = this.lotSize.split(" ",3);
+    inputData.lotSize = temp[2];
     inputData.userId = emailId;
 
     let tempInstrument = this.selectedInstrument["label"].split(" ", 4);
@@ -293,6 +296,8 @@ export class AnalysisComponentComponent implements OnInit {
       tempInstrument = tempInstrument[1].split(")",2);
       this.setPrice = tempInstrument[0];
       this.setQuantity = 1;
+      this.selectedPosition = "LONG";
+      this.disableButton = false;
     }
 
   }
