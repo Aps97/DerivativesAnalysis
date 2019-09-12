@@ -7,10 +7,11 @@
   </a>
   <div class="right" style="margin-right: 3vw; margin-top: 25px">
       <div class="left">
-        <button class="btn btn-welcome">Welcome, {{temp}}</button>
+        <button class="btn btn-welcome" disabled="true">Welcome, {{temp}}</button>
       </div>
-      <div class="right">
-        <button class="btn btn-logout" (click)="logout()">Log Out</button>
+      <div class="right" style="top: 0px">
+        <i class="fa fa-sign-out fa-2x logout" (click)="logout()"></i>
+        <!-- <button class="btn btn-logout" (click)="logout()">Log Out</button> -->
       </div>
   </div>
 

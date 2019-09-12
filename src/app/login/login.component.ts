@@ -112,7 +112,7 @@ export class LoginComponent implements OnInit {
         this.addSingle(sev, sum, mess);
       });
       await delay(500);
-      setUser(resp.emailId, resp.firstName, resp.lastName, resp.gainList, resp.gainPercentageList);
+      setUser(resp.uniqueIdentifier, resp.firstName, resp.lastName, resp.gainList, resp.gainPercentageList);
       this.router.navigateByUrl(resp.url);
     });
   }
@@ -137,6 +137,7 @@ export class LoginComponent implements OnInit {
       this.addSingle(sev, sum, messages);
       await delay(500);
       setUser(resp.uniqueIdentifier, resp.firstName, resp.lastName, resp.gainList, resp.gainPercentageList);
+      setHoldings(resp.userHolding);
       if (error) {
         this.router.navigateByUrl(resp.url);
       }
