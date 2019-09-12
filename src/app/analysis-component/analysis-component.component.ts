@@ -96,8 +96,6 @@ export class AnalysisComponentComponent implements OnInit {
 
   getInstrumentList(){
     
-    
-
     if(this.selectedSecurity){
       if(this.prevSelectedSecurity && this.selectedSecurity!==this.prevSelectedSecurity){
         this.clearSelections(); 

@@ -69,7 +69,8 @@ export class CurrentHoldingsComponentComponent implements OnInit {
         temp.instrument = this.holdings[x].expiryDate + " " + this.holdings[x].strikePrice + " " + this.holdings[x].type;
         temp.position = this.holdings[x].position;
         temp.numLots = this.holdings[x].numLots;
-        temp.ltp = this.holdings[x].ltp;
+        temp.ltp = this.holdings[x].spotPrice;
+        temp.lcp = this.holdings[x].ltp;
         temp.pl = gain[x];
         temp.per_change = gainPerc[x];
         this.tableData.push(temp);
@@ -77,23 +78,15 @@ export class CurrentHoldingsComponentComponent implements OnInit {
 
     this.cols = [
         { field: 'symbol', header: 'Symbol', width:'12.5%' },
-        { field: 'instrument', header: 'Instrument', width:'15%' },
+        { field: 'instrument', header: 'Instrument', width:'20%' },
         { field: 'position', header: 'Position', width:'12.5%' },
-        { field: 'numLots', header: 'Quantity', width:'12.5%' },
-        { field: 'price', header: 'Price', width:'12%' },
-        { field: 'ltp', header: 'LTP', width:'10.5%' },
+        { field: 'numLots', header: 'Quantity', width:'11.5%' },
+        { field: 'price', header: 'Price', width:'10%' },
+        { field: 'lcp', header: 'LCP', width:'9.5%' },
+        { field: 'ltp', header: 'LTP', width:'9.5%' },
         { field: 'pl', header: 'Profit/Loss', width:'12.5%' },
         { field: 'per_change', header: '% Change', width:'12.5%' }
     ];
-  }
-
-  selectedRow(){
-    //console.log(this.selectedHoldings);
-  }
-
-  clearChart(){
-    this.LineChart = [];
-    this.selectedHolding = [];
   }
 
   createChart(){
@@ -140,19 +133,43 @@ export class CurrentHoldingsComponentComponent implements OnInit {
 
     // Add data
     chart.data = this.graphData;
-    console.log(chart.data);
+    console.log(this.graphData);
+    
+    // function getMinY() {
+    //   return chart.data.reduce((min, p) => p.y < min ? p.y : min, chart.data[0].y);
+    // }
+    // function getMaxY() {
+    //   return chart.data.reduce((max, p) => p.y > max ? p.y : max, chart.data[0].y);
+    // }
 
     // Create axes
     var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
-    xAxis.renderer.minGridDistance = 40;
     xAxis.min = 0;
-    xAxis.max =  10000;
-
-
+    xAxis.max = chart.data[chart.data.length-1].x + 100;
+    console.log("x min"+xAxis.min);
+    console.log("x max"+xAxis.max);
+    
     // Create value axis
     var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    yAxis.min = -50000;
-    yAxis.max = 50000;
+    var max = chart.data[0].y;
+    var min = chart.data[0].y;
+    for(var i=0;i<(chart.data.length);i++)
+    {
+      if(chart.data[i].y >max)
+      {
+        max = chart.data[i].y;
+      }
+      if(chart.data[i].y <min)
+      {
+        min = chart.data[i].y;
+      }
+    }
+
+    yAxis.min = min - 1000;
+    yAxis.max = max + 1000;
+    console.log("y min"+yAxis.min);
+    console.log("y max"+yAxis.max);
+
     // Create series
     var series = chart.series.push(new am4charts.LineSeries());
     series.dataFields.valueY = "y";
@@ -160,6 +177,7 @@ export class CurrentHoldingsComponentComponent implements OnInit {
     series.strokeWidth = 3;
     series.tooltipText = "{valueY.value}";
     series.fillOpacity = 0.1;
+   
 
 
     var range = yAxis.createSeriesRange(series);
@@ -189,41 +207,3 @@ export class CurrentHoldingsComponentComponent implements OnInit {
 }
 }
 
-//   generateChart(){
-
-//     let response;
-//     let postData = this.selectedHoldings;
-//     console.log(postData);
-//     // this.derivativeService.sendHoldings_getChartData(postData).subscribe(result =>{
-//     //     response = result;
-//     // });
-
-//     this.LineChart = new Chart('lineChart', {
-//       type: 'line',
-//       data: {
-//         labels: ['start', 'mid', 'end'],
-//         datasets: [{
-//           label: 'Pay-Off Chart for selected holdings',
-//           data: [
-//             {x:-4, y: -1, indexLabel: "lowest", markerColor: "DarkSlateGrey", markerType: "cross"} , {x:4, y:-1}, {x:8, y:8}],
-//           fill: false,
-//           lineTension: 0,
-//           borderColor: 'red',
-//           borderWidth: 1
-//         }]
-//       },
-//       options: {
-//         title: {
-//           text: 'Line Chart',
-//           display: true
-//         },
-//         scales: {
-//           yAxes: [{
-//             ticks: {
-//               beginAtZero: true
-//             }
-//           }]
-//         }
-//       }
-//     });
-//   }
