@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="col-sm-3"  >Symbol please</div>
+        <div class="col-sm-3"  ></div>
         <div class="col-sm-7">
             <div class="row" style="margin-top: 30px">
                 <div class="col-sm-4">
@@ -40,11 +40,12 @@
         </div>
         
         <div class="row" style="margin-top: 30px"></div>
-        <div class="col-sm-3"  ></div>
-            <div class="col-sm-7"></div>
-            <div><p-button label="Go" style="margin-left: 30px; margin-top: 15px"(onClick)="getStrategyData()"></p-button>
+        <div class="col-sm-5"  ></div>
+            <div class="col-sm-5">
+            <div><p-button label="Go" style="margin-left: 30px; margin-top: 15px"(onClick)="getStrategyData()"></p-button></div>
             <div class="row" style="margin-top: 30px">
-                <mat-table [dataSource]="strategies1">
+                <div class="example-container mat-elevation-z8">
+                <mat-table [dataSource]="strategies" >
                     <!-- [...] -->
                     <ng-container  matColumnDef="strategyName">
                         <mat-header-cell *matHeaderCellDef>strategyName</mat-header-cell>
@@ -70,7 +71,7 @@
                         <mat-row *matRowDef="let row; columns: tableColumns"></mat-row>
                 
                     </mat-table>
-            
+                </div>
             
             </div>
 </div>

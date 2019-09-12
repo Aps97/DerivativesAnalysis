@@ -24,7 +24,7 @@ export class StrategyBuilderComponentComponent implements OnInit {
 
   securities: SelectItem[]; 
   views: SelectItem[];
-  strategies1 : any=[];
+  strategies =[];
   expiry : SelectItem[];
   cols : any[];
   temp : any;
@@ -71,29 +71,35 @@ export class StrategyBuilderComponentComponent implements OnInit {
     console.log("I'm inside");
     console.log(strategyData);
     
+    // let resp;
+    // let strategyData = new strategyInput();
+    // strategyData.security = "";
+    // strategyData.expiryDate = "";
+    // strategyData.views = "";
+    // strategyData.target = "0";
     this.strategyService.getStrategies(strategyData).subscribe(
         res => {
-            this.strategies1 = [];
+            this.strategies = [];
             this.temp = res;
             
             console.log("I'm inside 2");
             console.log(this.temp);
-            // console.log(this.temp.strategies1.length);
-            for(var x=0; x<this.temp.strategies1.length; x++){
-              //console.log("in loop");
+            // console.log(this.temp.strategies.length);
+            for(var x=0; x<this.temp.strategies.length; x++){
+              console.log("in loop");
               let tableData = new Strategies();
-              tableData.breakevens =  this.temp.strategies1[x].breakevens;
+              tableData.breakevens =  this.temp.strategies[x].breakevens;
               //console.log(tableData.breakevens);
-              tableData.maxLoss= this.temp.strategies1[x].maxLoss;
+              tableData.maxLoss= this.temp.strategies[x].maxLoss;
               //console.log(tableData.maxLoss);
-              tableData.maxProfit= this.temp.strategies1[x].maxProfit; 
-              //tableData.holdings= this.temp.strategies1[x].holdings;
-              tableData.strategyName= this.temp.strategies1[x].strategyName;
+              tableData.maxProfit= this.temp.strategies[x].maxProfit; 
+              //tableData.holdings= this.temp.strategies[x].holdings;
+              tableData.strategyName= this.temp.strategies[x].strategyName;
               console.log(tableData.strategyName);
-              this.strategies1.push(tableData);
+              this.strategies.push(tableData);
                                 
             }
-           console.log(this.strategies1);
+           console.log(this.strategies);
     
 
             // this.lotSize = this.temp.derivativeList[0].lotSize;
@@ -101,16 +107,16 @@ export class StrategyBuilderComponentComponent implements OnInit {
   } 
 
   ngOnInit() {
-    let resp;
-    let strategyData = new strategyInput();
-    strategyData.security = "";
-    strategyData.expiryDate = "";
-    strategyData.views = "";
-    strategyData.target = "0";
-    this.strategyService.getStrategies(strategyData).subscribe((result)=>{
-      resp=result;    
-      this.dataSource =  resp.strategies1;
-    })
+    // let resp;
+    // let strategyData = new strategyInput();
+    // strategyData.security = "";
+    // strategyData.expiryDate = "";
+    // strategyData.views = "";
+    // strategyData.target = "0";
+    // this.strategyService.getStrategies(strategyData).subscribe((result)=>{
+    //   resp=result;    
+    //   this.dataSource =  resp.strategies;
+    // })
     this.cols =
      [ 
       { field: 'strategyName', header: 'Strategy Name' },
