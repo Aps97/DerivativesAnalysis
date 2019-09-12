@@ -80,6 +80,7 @@ export class CurrentHoldingsComponentComponent implements OnInit {
 
     let response;
     let postData = this.selectedHoldings;
+    console.log(postData);
     // this.derivativeService.sendHoldings_getChartData(postData).subscribe(result =>{
     //     response = result;
     // });

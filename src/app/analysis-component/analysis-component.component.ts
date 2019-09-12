@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone  } from '@angular/core';
 import {SelectItem} from 'primeng/api';
 import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -6,6 +6,14 @@ import { Chart } from 'chart.js';
 import { Derivative } from '../Classes/Dervivative';
 import { AnalysisData } from '../Classes/AnalysisData';
 import { DataService } from '../services/data.service';
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import am4themes_material from "@amcharts/amcharts4/themes/material.js";
+
+
+am4core.useTheme(am4themes_material);
+am4core.useTheme(am4themes_animated);
 import { AddNewHoldings } from '../Classes/AddNewHolding';
 import { emailId } from '../login/login.component';
 
@@ -22,6 +30,8 @@ export class AnalysisTable{
   styleUrls: ['./analysis-component.component.scss']
 })
 export class AnalysisComponentComponent implements OnInit {
+
+  private chart: am4charts.XYChart;
 
   securities: SelectItem[];  //list of 5 securities in the dropdown
   instruments: SelectItem[];  //list of derivatives after security selection
@@ -54,6 +64,7 @@ export class AnalysisComponentComponent implements OnInit {
   disableButton = true;
 
   constructor(
+    private zone: NgZone,
     private analysisService: DataService
   ) {
     this.securities = [
@@ -64,6 +75,14 @@ export class AnalysisComponentComponent implements OnInit {
       {label:'SUNPHARMA', value:'SUNPHARMA'},
     ];
   }
+
+  // ngOnDestroy() {
+  //   this.zone.runOutsideAngular(() => {
+  //     if (this.chart) {
+  //       this.chart.dispose();
+  //     }
+  //   });
+  // }
 
   ngOnInit() {
     this.cols = [
@@ -148,40 +167,94 @@ export class AnalysisComponentComponent implements OnInit {
     // if(!this.LineChart){
     //     lineChart.update();
     // }
-    this.LineChart = new Chart('lineChart', {
-      type: 'line',
-      data: {
-        labels: this.graphLabels,
-        scaleOverride : true,
-        datasets: [{
-          label: 'Pay-Off Chart for selected holdings',
-          data: this.graphData,
-          fill: false,
-          lineTension: 0,
-          borderColor: 'red',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        title: {
-          text: 'Line Chart',
-          display: true
-        },
-        scales: {
-          xAxes: [{
-            type : 'linear',
-            ticks: {
-              beginAtZero: false
-            }
-          }],
-          yAxes: [{
-            ticks: {
-              beginAtZero: false
-            }
-          }],
-        }
-      }
-    });
+    // this.LineChart = new Chart('lineChart', {
+    //   type: 'line',
+    //   data: {
+    //     labels: this.graphLabels,
+    //     scaleOverride : true,
+    //     datasets: [{
+    //       label: 'Pay-Off Chart for selected holdings',
+    //       data: this.graphData,
+    //       fill: false,
+    //       lineTension: 0,
+    //       borderColor: 'red',
+    //       borderWidth: 1
+    //     }]
+    //   },
+    //   options: {
+    //     title: {
+    //       text: 'Line Chart',
+    //       display: true
+    //     },
+    //     scales: {
+    //       xAxes: [{
+    //         type : 'linear',
+    //         ticks: {
+    //           beginAtZero: false
+    //         }
+    //       }],
+    //       yAxes: [{
+    //         ticks: {
+    //           beginAtZero: false
+    //         }
+    //       }],
+    //     }
+    //   }
+    // });
+
+    // this.zone.runOutsideAngular(() => {
+      let chart = am4core.create("chartdiv", am4charts.XYChart);
+
+      // Add data
+      chart.data = this.graphData;
+      console.log(chart.data);
+      
+      // Create axes
+      var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
+      xAxis.renderer.minGridDistance = 40;
+      xAxis.min = 0;
+      xAxis.max =  10000;
+      
+      
+      // Create value axis
+      var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      yAxis.min = -50000;
+      yAxis.max = 50000;
+      // Create series
+      var series = chart.series.push(new am4charts.LineSeries());
+      series.dataFields.valueY = "y";
+      series.dataFields.valueX = "x";
+      series.strokeWidth = 3;
+      series.tooltipText = "{valueY.value}";
+      series.fillOpacity = 0.1;
+        
+
+      var range = yAxis.createSeriesRange(series);
+      range.value = 0;
+      range.endValue = 999999999;
+      range.contents.stroke = am4core.color("#008000");
+      range.contents.fill = range.contents.stroke;
+      range.contents.strokeOpacity = 0.7;
+      range.contents.fillOpacity = 0.1;
+
+      //titles
+      xAxis.title.text = "Underlying Price";
+      xAxis.title.fontWeight = "bold";
+
+      yAxis.title.text = "Profit/Loss";
+      yAxis.title.fontWeight = "bold";
+
+      
+      //scrollbars
+      chart.cursor = new am4charts.XYCursor();
+      chart.cursor.xAxis = xAxis;
+      chart.scrollbarX = new am4core.Scrollbar();
+      chart.scrollbarY = new am4core.Scrollbar();
+      
+      // end am4core.ready()
+    
+      this.chart = chart;
+    // });
   }
 
   clearSelections(){
