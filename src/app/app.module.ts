@@ -1,3 +1,4 @@
+import { MessageService } from 'primeng/api';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -76,7 +77,8 @@ import {ToastModule} from 'primeng/toast';
   ],
   providers: [
     DataService,
-    LoginService
+    LoginService,
+    MessageService,
   ],
   bootstrap: [AppComponent]
 })
