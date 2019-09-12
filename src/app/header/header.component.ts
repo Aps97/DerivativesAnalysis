@@ -3,12 +3,15 @@ import { LoginComponent, firstName } from './../login/login.component';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { setUser } from '../login/login.component';
+import { setHoldings } from '../login/login.component';
+
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
+
 
 export class HeaderComponent implements OnInit {
 
@@ -17,6 +20,16 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router) { }
 
   items: MenuItem[];
+
+  // logout() {
+  //   setUser(null, 'Guest', null, null, null, null);
+  //   console.log('Logging out...');
+  //   this.router.navigateByUrl('/login');
+  // }
+
+  home() {
+    this.router.navigateByUrl('/login');
+  }
 
   ngOnInit() {
     this.items = [
@@ -29,9 +42,13 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    setUser(null, 'Guest', null, null, null, null);
-    console.log("Logging out...");
+    setUser(null, 'Guest', null, null, null);
+    setHoldings(null);
     this.router.navigateByUrl('/login');
   }
+
+  // logout(){
+  //   setLoginEmail(null, null);
+  // }
 
 }

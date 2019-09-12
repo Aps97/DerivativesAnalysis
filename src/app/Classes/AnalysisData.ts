@@ -6,5 +6,5 @@ export class AnalysisData{
     price : String;
     quantity : String;
     position : String;
-    lotsize : String;
+    lotSize : String;
   }
