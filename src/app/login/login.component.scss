@@ -27,8 +27,8 @@
   z-index:1000;
   top: 0;
   right: 0;
-  background-image: linear-gradient(to bottom, rgba(black,0.5), rgba(47,79,112,0.5));
-  border-bottom: 1.5px solid darkslategrey;
+  background-image: linear-gradient(to bottom, rgba(black,0.5), rgba(darkslategray,0.5));
+  box-shadow: 2px 2px 4px rgba(black, 0.75);
   width: 100vw;
   height: 80px;
   vertical-align: middle;
@@ -72,7 +72,8 @@
   margin: 3vw;
   height: 483.59px;
   border-radius: 5px;
-  background-image: linear-gradient(to top, rgba(black,0.6), rgba(darkslategrey,0.5));
+  background-image: linear-gradient(to top, rgba(black,0.75), rgba(darkslategrey,0.75));
+  box-shadow: 4px 4px 4px rgba(black, 0.75);
   color: ivory;
   text-align: center;
   vertical-align: middle;
@@ -85,7 +86,8 @@
   margin-left: 0;
   height: 100%;
   border-radius: 5px;
-  background-image: linear-gradient(to top, rgba(black,0.6), rgba(darkslategrey,0.5));
+  background-image: linear-gradient(to top, rgba(black,0.75), rgba(darkslategrey,0.75));
+  box-shadow: 4px 4px 4px rgba(black, 0.75);
   color: ivory;
   text-align: center;
   vertical-align: middle;

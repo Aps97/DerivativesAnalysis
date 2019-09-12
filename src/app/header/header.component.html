@@ -4,18 +4,18 @@
 
   <div class="citi"></div>
 
-  <div class="right" style="margin-right: 15px; margin-top: 25px">
+  <div class="right" style="margin-right: 3vw; margin-top: 25px">
       <div class="left">
-        <p-message severity="success" text="Welcome, {{temp}}"></p-message>
+        <button class="btn btn-welcome">Welcome, {{temp}}</button>
       </div>
       <div class="right">
-        <p-button label="Logout" (onClick)="logout()"></p-button>
-        </div>
+        <button class="btn btn-logout" (onClick)="logout()">Log Out</button>
+      </div>
   </div>
 
 </div>
 
-<nav class="navbar navbar-fixed-top navbar" style="position:relative; top:90px">
+<nav class="navbar navbar-fixed-top navbar" style="position: absolute; top: 90px; left: 2vw; z-index: 10">
   <p-tabMenu [model]="items"></p-tabMenu>
 </nav>
 
