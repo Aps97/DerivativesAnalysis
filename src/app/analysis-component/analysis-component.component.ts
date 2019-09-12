@@ -15,7 +15,7 @@ import am4themes_material from "@amcharts/amcharts4/themes/material.js";
 am4core.useTheme(am4themes_material);
 am4core.useTheme(am4themes_animated);
 import { AddNewHoldings } from '../Classes/AddNewHolding';
-import { emailId } from '../login/login.component';
+import { emailId, userHoldings } from '../login/login.component';
 
 export class AnalysisTable{
   strategy : String;
@@ -234,16 +234,18 @@ export class AnalysisComponentComponent implements OnInit {
     inputData.expiryDate = tempInstrument[0];
     inputData.strikePrice = tempInstrument[1];
     inputData.type = tempInstrument[2];
-    tempInstrument = tempInstrument[3].split("(", 2);
-    tempInstrument = tempInstrument[1].split(")",2);
+    // tempInstrument = tempInstrument[3].split("(", 2);
+    // tempInstrument = tempInstrument[1].split(")",2);
     //this.setPrice = tempInstrument[0];
 
-    inputData.price = tempInstrument[0];
+    inputData.price = this.postData.price;
     console.log(inputData);
     
     this.analysisService.sendUserHolding(inputData).subscribe(res=>{
       this.message = res;
       console.log(this.message);
+      let tempx = this.message.userHoldings;
+      console.log(tempx);
     });
   
   }
