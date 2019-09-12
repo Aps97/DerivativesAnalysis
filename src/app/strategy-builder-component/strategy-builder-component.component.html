@@ -1,79 +1,56 @@
 <div class="container">
     <div class="row">
-        <div class="col-sm-3"  ></div>
-        <div class="col-sm-7">
-            <div class="row" style="margin-top: 30px">
-                <div class="col-sm-4">
-                <p-dropdown [(ngModel)]="selectedSecurity" [options]="securities" placeholder="Select a security"
-                    optionLabel="label" autoWidth="false" [style]="autoWidth" >
-                </p-dropdown></div>
-                <div class="col-sm-4">
-                <p-dropdown [(ngModel)]="selectedView" [options]="views" placeholder="Hold a view"
-                        optionLabel="label" autoWidth="false" [style]="autoWidth">
-                </p-dropdown></div>
-            </div>
-            <!-- <div class="row" style="margin-top: 30px">    
-                <div class="col-sm-3">
-                <p-dropdown [(ngModel)]="selectedExpiry" [options]="expiry" placeholder="Expiry Date"
-                        optionLabel="label" autoWidth="false" [style]="autoWidth">
-                </p-dropdown></div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="ui-float-label">
-                    <input id="float-input" type="text" autoWidth="false" [style]="autoWidth" pInputText> 
-                    <label for="float-input">Target</label>
-                    </div>
-                </div>
-            </div>     -->
-            <div class="row" style="margin-top: 30px">
-                <div class="col-sm-4">
-                <p-dropdown [(ngModel)]="selectedExpiry" [options]="expiry" placeholder="Expiry Date"
-                        optionLabel="label" autoWidth="false" [style]="autoWidth">
-                </p-dropdown></div>
-                <div class="col-sm-4">
-                    <div class="ui-float-label">
-                    <input id="float-input" type="number" [(ngModel)]="selectedTarget" size = "21.5" width="25" placeholder="Target" pInputText> 
-                    <label for="float-input"></label>
-                    </div>
-                </div>
+        <div class="col-sm-3">
+            <p-dropdown [(ngModel)]="selectedSecurity" [options]="securities" placeholder="Select a security"
+                optionLabel="label" autoWidth="false" [style]="autoWidth" >
+            </p-dropdown>
+        </div>
+        <div class="col-sm-3">
+            <p-dropdown [(ngModel)]="selectedView" [options]="views" placeholder="Hold a view"
+                    optionLabel="label" autoWidth="false" [style]="autoWidth">
+            </p-dropdown>
+        </div>
+         <div class="col-sm-2">
+            <p-dropdown [(ngModel)]="selectedExpiry" [options]="expiry" placeholder="Expiry Date"
+                    optionLabel="label" autoWidth="false" [style]="autoWidth">
+            </p-dropdown>
+        </div>
+        <div class="col-sm-2">
+            <div class="ui-float-label">
+            <input id="float-input" type="number" [(ngModel)]="selectedTarget" size = "21.5" width="25" placeholder="Target" pInputText> 
+            <label for="float-input"></label>
             </div>
         </div>
-        
-        <div class="row" style="margin-top: 30px"></div>
-        <div class="col-sm-5"  ></div>
-            <div class="col-sm-5">
-            <div><p-button label="Go" style="margin-left: 30px; margin-top: 15px"(onClick)="getStrategyData()"></p-button></div>
-            <div class="row" style="margin-top: 30px">
-                <div class="example-container mat-elevation-z8">
-                <mat-table [dataSource]="strategies" >
-                    <!-- [...] -->
-                    <ng-container  matColumnDef="strategyName">
-                        <mat-header-cell *matHeaderCellDef>strategyName</mat-header-cell>
-                        <mat-cell *matCellDef="let element">{{element.strategyName}}</mat-cell>
-                        </ng-container>
+       
+        <div class="col-sm-2">
+           <p-button label="Go" style="margin-left: 20px;"(onClick)="getStrategyData()"></p-button>
+        </div>
+    </div>
 
-                    <ng-container  matColumnDef="maxProfit">
-                        <mat-header-cell *matHeaderCellDef>maxProfit</mat-header-cell>
-                        <mat-cell *matCellDef="let element">{{element.maxProfit}}</mat-cell>
-                        </ng-container>
-
-                    <ng-container  matColumnDef="maxLoss">
-                        <mat-header-cell *matHeaderCellDef>maxLoss</mat-header-cell>
-                        <mat-cell *matCellDef="let element">{{element.maxLoss}}</mat-cell>
-                         </ng-container>
-
-                    <ng-container  matColumnDef="breakevens">
-                        <mat-header-cell *matHeaderCellDef>breakevens</mat-header-cell>
-                        <mat-cell *matCellDef="let element">{{element.breakevens}}</mat-cell>
-                        </ng-container>
-                    
-                        <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: tableColumns"></mat-row>
-                
-                    </mat-table>
-                </div>
-            
-            </div>
-</div>
-</div>
+    <div class="row" style="margin-top: 30px">
+        <p-table #dt [columns]="cols" [value]="strategies" [paginator]="true" [rows]="15" selectionMode="single" 
+            [(selection)]="selectedHolding" [scrollable]="true" [style]="{width:'1100px'}" ngDefaultControl>
+                    <ng-template pTemplate="caption">
+                            <div style="text-align: right">       
+                                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                            </div>
+                        </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns" [ngStyle]="{'width': col.width}" style="text-align: center">
+                                {{col.header}}
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-holding let-columns="columns">
+                        <tr [pSelectableRow]="holding" (click)="selectedRow()">
+                            <td *ngFor="let col of columns" [ngStyle]="{'width': col.width}" style="text-align: center">
+                                    {{holding[col.field]}}
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+    
+        </div>
 </div>

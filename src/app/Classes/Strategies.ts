@@ -1,6 +1,6 @@
 export class Strategies{
     strategyName : String;
-    //holdings : any;
+    holdings: any;
     maxProfit : number;
     maxLoss : number;
     breakevens : any;
