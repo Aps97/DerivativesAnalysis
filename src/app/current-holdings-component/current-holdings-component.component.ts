@@ -10,10 +10,24 @@ import am4themes_material from "@amcharts/amcharts4/themes/material.js";
 import { AnalysisTable } from '../analysis-component/analysis-component.component';
 import { AnalysisData } from '../Classes/AnalysisData';
 import { AddNewHoldings } from '../Classes/AddNewHolding';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-current-holdings',
   templateUrl: './current-holdings-component.component.html',
+  animations: [
+    trigger('rowExpansionTrigger', [
+        state('void', style({
+            transform: 'translateX(-10%)',
+            opacity: 0
+        })),
+        state('active', style({
+            transform: 'translateX(0)',
+            opacity: 1
+        })),
+        transition('* <=> *', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
+    ])
+],
   styleUrls: ['./current-holdings-component.component.scss']
 })
 export class CurrentHoldingsComponentComponent implements OnInit {
@@ -104,6 +118,7 @@ export class CurrentHoldingsComponentComponent implements OnInit {
 
     let tempResult;
 
+    console.log(temp);
     this.derivativeService.sendAnalysisInput(temp).subscribe(res=>{
       tempResult = res;
       this.graphData = [];
