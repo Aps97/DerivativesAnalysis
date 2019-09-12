@@ -7,6 +7,7 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4themes_material from "@amcharts/amcharts4/themes/material.js";
+import { emailId } from '../login/login.component';
 
 am4core.useTheme(am4themes_material);
 am4core.useTheme(am4themes_animated);
@@ -19,6 +20,8 @@ am4core.useTheme(am4themes_animated);
 
 export class DashboardComponentComponent implements OnInit {
 
+private chart: am4charts.TreeMap;
+  temp : any;
   data: any;
   options: any;
   dashChart: [];
@@ -35,259 +38,167 @@ export class DashboardComponentComponent implements OnInit {
   selectedHoldings: any[] = [];
 
 
-  constructor(private zone: NgZone,private derivativeService: DataService, private renderer2: Renderer2, @Inject(DOCUMENT) private _document) {
+  constructor(private zone: NgZone,private dashboardService: DataService, private renderer2: Renderer2, @Inject(DOCUMENT) private _document) {
     //this.holdings = this.derivativeService.getUserHoldings();
   }
 
   ngAfterViewInit() {
-    this.generateChart();
+    
    }
 
    generateChart()
    {
-    var data = [{
-      "country": "Dummy",
-      "disabled": true,
-      "litres": 1000,
-      "color": am4core.color("#dadada"),
-      "opacity": 0.3,
-      "strokeDasharray": "4,4"
-  }, {
-      "country": "Lithuania",
-      "litres": 501.9
-  }, {
-      "country": "Estonia",
-      "litres": 301.9
-  }, {
-      "country": "Ireland",
-      "litres": 201.1
-  }, {
-      "country": "Germany",
-      "litres": 165.8
-  }, {
-      "country": "Australia",
-      "litres": 139.9
-  }, {
-      "country": "Austria",
-      "litres": 128.3
-  }];
-  
-  
-  let container = am4core.create("chartdiv", am4core.Container);
-  container.width = am4core.percent(100);
-  container.height = am4core.percent(100);
-  container.layout = "horizontal";
-  
-  container.events.on("maxsizechanged", function () {
-      chart1.zIndex = 0;
-      separatorLine.zIndex = 1;
-      dragText.zIndex = 2;
-      chart2.zIndex = 3;
-  })
-  
-  let chart1 = container.createChild(am4charts.PieChart);
-  chart1 .fontSize = 11;
-  chart1.hiddenState.properties.opacity = 0; // this makes initial fade in effect
-  chart1.data = data;
-  chart1.radius = am4core.percent(70);
-  chart1.innerRadius = am4core.percent(40);
-  chart1.zIndex = 1;
-  
-  let series1 = chart1.series.push(new am4charts.PieSeries());
-  series1.dataFields.value = "litres";
-  series1.dataFields.category = "country";
-  series1.colors.step = 2;
-  series1.alignLabels = false;
-  series1.labels.template.bent = true;
-  series1.labels.template.radius = 3;
-  series1.labels.template.padding(0,0,0,0);
-  
-  let sliceTemplate1 = series1.slices.template;
-  sliceTemplate1.cornerRadius = 5;
-  sliceTemplate1.draggable = true;
-  sliceTemplate1.inert = true;
-  sliceTemplate1.propertyFields.fill = "color";
-  sliceTemplate1.propertyFields.fillOpacity = "opacity";
-  sliceTemplate1.propertyFields.stroke = "color";
-  sliceTemplate1.propertyFields.strokeDasharray = "strokeDasharray";
-  sliceTemplate1.strokeWidth = 1;
-  sliceTemplate1.strokeOpacity = 1;
-  
-  let zIndex = 5;
-  
-  // sliceTemplate1.events.on("down", function (event) {
-  //     event.target.toFront();
-  //     // also put chart to front
-  //     let series = event.target.dataItem.component;
-  //     series.chart.zIndex = zIndex++;
-  // })
-  
-  series1.ticks.template.disabled = true;
-  
-  sliceTemplate1.states.getKey("active").properties.shiftRadius = 0;
-  
-  sliceTemplate1.events.on("dragstop", function (event) {
-      handleDragStop(event);
-  })
-  
-  // separator line and text
-  let separatorLine = container.createChild(am4core.Line);
-  separatorLine.x1 = 0;
-  separatorLine.y2 = 300;
-  separatorLine.strokeWidth = 3;
-  separatorLine.stroke = am4core.color("#dadada");
-  separatorLine.valign = "middle";
-  separatorLine.strokeDasharray = "5,5";
-  
-  
-  let dragText = container.createChild(am4core.Label);
-  dragText.text = "Drag slices over the line";
-  dragText.rotation = 90;
-  dragText.valign = "middle";
-  dragText.align = "center";
-  dragText.paddingBottom = 5;
-  
-  // second chart
-  let chart2 = container.createChild(am4charts.PieChart);
-  chart2.hiddenState.properties.opacity = 0; // this makes initial fade in effect
-  chart2 .fontSize = 11;
-  chart2.radius = am4core.percent(70);
-  chart2.data = data;
-  chart2.innerRadius = am4core.percent(40);
-  chart2.zIndex = 1;
-  
-  let series2 = chart2.series.push(new am4charts.PieSeries());
-  series2.dataFields.value = "litres";
-  series2.dataFields.category = "country";
-  series2.colors.step = 2;
-  
-  series2.alignLabels = false;
-  series2.labels.template.bent = true;
-  series2.labels.template.radius = 3;
-  series2.labels.template.padding(0,0,0,0);
-  series2.labels.template.propertyFields.disabled = "disabled";
-  
-  let sliceTemplate2 = series2.slices.template;
-  sliceTemplate2.copyFrom(sliceTemplate1);
-  
-  series2.ticks.template.disabled = true;
-  
-  function handleDragStop(event) {
-      let targetSlice = event.target;
-      let dataItem1;
-      let dataItem2;
-      let slice1;
-      let slice2;
-  
-      if (series1.slices.indexOf(targetSlice) != -1) {
-          slice1 = targetSlice;
-          slice2 = series2.dataItems.getIndex(targetSlice.dataItem.index).slice;
-      }
-      else if (series2.slices.indexOf(targetSlice) != -1) {
-          slice1 = series1.dataItems.getIndex(targetSlice.dataItem.index).slice;
-          slice2 = targetSlice;
-      }
-  
-  
-      dataItem1 = slice1.dataItem;
-      dataItem2 = slice2.dataItem;
-  
-      let series1Center = am4core.utils.spritePointToSvg({ x: 0, y: 0 }, series1.slicesContainer);
-      let series2Center = am4core.utils.spritePointToSvg({ x: 0, y: 0 }, series2.slicesContainer);
-  
-      let series1CenterConverted = am4core.utils.svgPointToSprite(series1Center, series2.slicesContainer);
-      let series2CenterConverted = am4core.utils.svgPointToSprite(series2Center, series1.slicesContainer);
-  
-      // tooltipY and tooltipY are in the middle of the slice, so we use them to avoid extra calculations
-      let targetSlicePoint = am4core.utils.spritePointToSvg({ x: targetSlice.tooltipX, y: targetSlice.tooltipY }, targetSlice);
-  
-      if (targetSlice == slice1) {
-          if (targetSlicePoint.x > container.pixelWidth / 2) {
-              let value = dataItem1.value;
-  
-              dataItem1.hide();
-  
-              let animation = slice1.animate([{ property: "x", to: series2CenterConverted.x }, { property: "y", to: series2CenterConverted.y }], 400);
-              animation.events.on("animationprogress", function (event) {
-                  slice1.hideTooltip();
-              })
-  
-              slice2.x = 0;
-              slice2.y = 0;
-  
-              dataItem2.show();
+    // var data1 = this.temp;
+    // var data = data1["totalValue"];
+    // console.log(data1["totalValue"]);
+
+    // let data = {
+    //    "ITC" : {"Profit":2000, "Loss":5000},
+    //    "HDFCBANK" : {"Profit":5000, "Loss":5000}
+    // }
+
+    let data = {
+        // "Acura": { "ILX": 11757, "MDX": 54886, "NSX": 581, "RDX": 51295, "RLX": 1237, "TLX": 34846 },
+        // "Alfa Romeo": { "4C": 407, "Giulia": 8903, "Stelvio": 2721 }
+
+        "ITC":{"NetPL":3000},
+        "HDFCBANK":{"NetPL":5000}
+    }
+
+    
+    // let chart = am4core.create("chartdiv", am4charts.TreeMap);
+    // chart.colors.step = 2;
+
+    // chart.data = [{
+    //     name: "NetPL",
+    //     children: [
+    //       {
+    //         name : "ITC",
+    //         value: 200
+    //       }
+    //     ] },
+    //     {
+    //     name: "NetPL",
+    //     children: [
+    //         {
+    //         name : "HDFCBANK",
+    //         value: 600
+    //         }
+    //     ]     
+      
+    //   }];
+    // define data fields
+    function processData(data) {
+        let treeData = [];
+      
+        let smallBrands = { name: "Other", children: [] };
+      
+        for (var brand in data) {
+          let brandData = { name: brand, children: [] }
+          let brandTotal = 0;
+          for (var model in data[brand]) {
+            brandTotal += data[brand][model];
+          }
+      
+          for (var model in data[brand]) {
+            // do not add very small
+            if (data[brand][model] > 100) {
+              brandData.children.push({ name: model, count: data[brand][model] });
+            }
+          }
+      
+          // add to small brands if total number less than
+          if (brandTotal > 100000) {
+            treeData.push(brandData);
           }
           else {
-              slice1.animate([{ property: "x", to: 0 }, { property: "y", to: 0 }], 400);
+            smallBrands.children.push(brandData)
           }
+      
+        }
+        treeData.push(smallBrands);
+        return treeData;
       }
-      if (targetSlice == slice2) {
-          if (targetSlicePoint.x < container.pixelWidth / 2) {
-  
-              let value = dataItem2.value;
-  
-              dataItem2.hide();
-  
-              let animation = slice2.animate([{ property: "x", to: series1CenterConverted.x }, { property: "y", to: series1CenterConverted.y }], 400);
-              animation.events.on("animationprogress", function (event) {
-                  slice2.hideTooltip();
-              })
-  
-              slice1.x = 0;
-              slice1.y = 0;
-              dataItem1.show();
-          }
-          else {
-              slice2.animate([{ property: "x", to: 0 }, { property: "y", to: 0 }], 400);
-          }
-      }
-  
-      toggleDummySlice(series1);
-      toggleDummySlice(series2);
-  
-      series1.hideTooltip();
-      series2.hideTooltip();
-  }
-  
-  function toggleDummySlice(series) {
-      let show = true;
-      for (var i = 1; i < series.dataItems.length; i++) {
-          let dataItem = series.dataItems.getIndex(i);
-          if (dataItem.slice.visible && !dataItem.slice.isHiding) {
-              show = false;
-          }
-      }
-  
-      let dummySlice = series.dataItems.getIndex(0);
-      if (show) {
-          dummySlice.show();
-      }
-      else {
-          dummySlice.hide();
-      }
-  }
-  
-  series2.events.on("datavalidated", function () {
-  
-      let dummyDataItem = series2.dataItems.getIndex(0);
-      dummyDataItem.show(0);
-      dummyDataItem.slice.draggable = false;
-      dummyDataItem.slice.tooltipText = undefined;
-  
-      for (var i = 1; i < series2.dataItems.length; i++) {
-          series2.dataItems.getIndex(i).hide(0);
-      }
-  })
-  
-  series1.events.on("datavalidated", function () {
-      let dummyDataItem = series1.dataItems.getIndex(0);
-      dummyDataItem.hide(0);
-      dummyDataItem.slice.draggable = false;
-      dummyDataItem.slice.tooltipText = undefined;
-  })
+      
+      // create chart
+      let chart = am4core.create("chartdiv", am4charts.TreeMap);
+      chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+      
+      // only one level visible initially
+      chart.maxLevels = 1;
+      // define data fields
+      chart.dataFields.value = "count";
+      chart.dataFields.name = "name";
+      chart.dataFields.children = "children";
+      chart.homeText = "US Car Sales 2017";
+      
+      // enable navigation
+      chart.navigationBar = new am4charts.NavigationBar();
+      
+      // level 0 series template
+      let level0SeriesTemplate = chart.seriesTemplates.create("0");
+      level0SeriesTemplate.strokeWidth = 2;
+      
+      // by default only current level series bullets are visible, but as we need brand bullets to be visible all the time, we modify it's hidden state
+      level0SeriesTemplate.bulletsContainer.hiddenState.properties.opacity = 1;
+      level0SeriesTemplate.bulletsContainer.hiddenState.properties.visible = true;
+      // create hover state
+      let columnTemplate = level0SeriesTemplate.columns.template;
+      let hoverState = columnTemplate.states.create("hover");
+      
+      // darken
+      hoverState.adapter.add("fill", function (fill, target) {
+        if (fill instanceof am4core.Color) {
+          return am4core.color(am4core.colors.brighten(fill.rgb, -0.2));
+        }
+        return fill;
+      })
+      
+      // add logo
+      let image = columnTemplate.createChild(am4core.Image);
+      image.opacity = 0.15;
+      image.align = "center";
+      image.valign = "middle";
+      image.width = am4core.percent(80);
+      image.height = am4core.percent(80);
+      
+      // add adapter for href to load correct image
+    //   image.adapter.add("href", function (href, target) {
+    //     let dataItem = target.parent.dataItem;
+    //     if (dataItem) {
+    //       return "https://www.amcharts.com/lib/images/logos/" + dataItem.treeMapDataItem.name.toLowerCase() + ".png";
+    //     }
+    //   });
+      
+      // level1 series template
+      let level1SeriesTemplate = chart.seriesTemplates.create("1");
+      level1SeriesTemplate.columns.template.fillOpacity = 0;
+      
+      let bullet1 = level1SeriesTemplate.bullets.push(new am4charts.LabelBullet());
+      bullet1.locationX = 0.5;
+      bullet1.locationY = 0.5;
+      bullet1.label.text = "{name}";
+      bullet1.label.fill = am4core.color("#ffffff");
+      
+      // level2 series template
+      let level2SeriesTemplate = chart.seriesTemplates.create("2");
+      level2SeriesTemplate.columns.template.fillOpacity = 0;
+      
+      let bullet2 = level2SeriesTemplate.bullets.push(new am4charts.LabelBullet());
+      bullet2.locationX = 0.5;
+      bullet2.locationY = 0.5;
+      bullet2.label.text = "{name}";
+      bullet2.label.fill = am4core.color("#ffffff");
+      
+      chart.data = processData(data);
    }
 
   ngOnInit() {
+      console.log(emailId);
+      this.dashboardService.getValueFromUser(emailId).subscribe(res=>{
+        this.temp = res; 
+        this.generateChart();
+      });
     // this.generateChart();
     // const s = this.renderer2.createElement('script');
     // s.type = 'text/javascript';

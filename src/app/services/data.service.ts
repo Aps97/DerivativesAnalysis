@@ -28,6 +28,9 @@ export class DataService {
     }, err => (console.log('Error..')) );
   }
 
+  getValueFromUser(userEmail : String){
+    return this.httpService.post('http://localhost:8082/DerivativeAnalysis/rest/valuebyuser', userEmail).pipe(map(result => result));
+  }
 
 
 
