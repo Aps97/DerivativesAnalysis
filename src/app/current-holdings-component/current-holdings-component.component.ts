@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Derivative } from '../Classes/Dervivative';
 import { DataService } from '../services/data.service';
 import { Chart } from 'chart.js';
@@ -18,7 +18,12 @@ import { AddNewHoldings } from '../Classes/AddNewHolding';
 })
 export class CurrentHoldingsComponentComponent implements OnInit {
 
+<<<<<<< HEAD
   private chart: am4charts.XYChart;
+=======
+  // private chart: am4charts.XYChart;
+
+>>>>>>> b74f88f96700af06c30426daacf936cd7bf4f28c
   holdings : any;
   tableData : Derivative[] = [];
   cols : any[];
@@ -27,12 +32,15 @@ export class CurrentHoldingsComponentComponent implements OnInit {
   graphData : any;
   // form: FormGroup;
 
-  constructor( private derivativeService: DataService,
+  constructor(  
+    private derivativeService: DataService,
                //private formBuilder: FormBuilder
                ) {
       //this.holdings = this.derivativeService.getUserHoldings();
      }
 
+    
+  
   ngOnInit() {
 
     //uncomment after connecting with backend
@@ -91,6 +99,7 @@ export class CurrentHoldingsComponentComponent implements OnInit {
     
     let temp = [];
 
+<<<<<<< HEAD
     let chartData = new AddNewHoldings();
 
     chartData.price = this.selectedHolding.price.toString();
@@ -177,6 +186,47 @@ export class CurrentHoldingsComponentComponent implements OnInit {
     this.chart = chart;
   
 }
+=======
+  //   let response;
+  //   let postData = this.selectedHoldings;
+  //   // this.derivativeService.sendHoldings_getChartData(postData).subscribe(result =>{
+  //   //     response = result;
+  //   // });
+
+  //   this.LineChart = new Chart('lineChart', {
+  //     type: 'line',
+  //     data: {
+  //       labels: ['start', 'mid', 'end'],
+  //       datasets: [{
+  //         label: 'Pay-Off Chart for selected holdings',
+  //         data: [
+  //           {x:-4, y: -1, indexLabel: "lowest", markerColor: "DarkSlateGrey", markerType: "cross"} , {x:4, y:-1}, {x:8, y:8}],
+  //         fill: false,
+  //         lineTension: 0,
+  //         borderColor: 'red',
+  //         borderWidth: 1
+  //       }]
+  //     },
+  //     options: {
+  //       title: {
+  //         text: 'Line Chart',
+  //         display: true
+  //       },
+  //       scales: {
+  //         yAxes: [{
+  //           ticks: {
+  //             beginAtZero: true
+  //           }
+  //         }]
+  //       }
+  //     }
+  //   });
+
+  // let chart = am4core.create("chartdiv", am4charts.XYChart);
+
+  
+   }
+>>>>>>> b74f88f96700af06c30426daacf936cd7bf4f28c
 }
 
 //   generateChart(){

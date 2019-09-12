@@ -1,28 +1,92 @@
-<div class="bgimg">
-  <div class="banner">
-    <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+<div class="bgimg"></div>
 
-      <div class="ui-inputgroup username">
-        <span class="ui-float-label">
-          <input type="text" pInputText formControlName="emailId">
-          <label for="float-input">Username</label>
-        </span>
-      </div>
+<div class="banner">
 
-      <div class="password">
-        <span class="ui-float-label">
-          <input type="password" pInputText formControlName="password">
-          <label for="float-input">Password</label>
-        </span>
-      </div>
+  <div class="citi"></div>
 
-      <div class="submit">
-        <button class="btn btn-primary" type="submit" style="width: 100px" [disabled]="!loginForm.valid">Login</button>
+  <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+
+    <div class="ui-inputgroup username">
+      <span class="ui-float-label">
+        <input type="text" pInputText formControlName="emailId">
+        <label for="float-input">Email ID</label>
+      </span>
+    </div>
+
+    <div class="password">
+      <span class="ui-float-label">
+        <input type="password" pInputText formControlName="password">
+        <label for="float-input">Password</label>
+      </span>
+    </div>
+
+    <div class="submit">
+      <button class="btn btn-primary" type="submit" style="width: 100px" [disabled]="!loginForm.valid">Login</button>
+    </div>
+  </form>
+</div>
+
+<div class="cont">
+  <div class="main">
+    <br>
+    <h2>Welcome to RainMaker</h2>
+    <div class="parabox">
+      <div class="para">
+        <div class="paraicon">
+          <i class="fa fa-list"></i>
+        </div>
+        <div class="paratext">
+            Gain insights into your trades and investments with in-depth portfolio visualization
+        </div>
       </div>
-    </form>
+      <div class="para">
+        <div class="paratext" style="margin-top: 35px">
+          Build and analyze derivative strategies to make informed investment decisions
+        </div>
+        <div class="paraicon" style="top: 40px">
+          <i class="fa fa-line-chart"></i>
+        </div>
+      </div>
+      <div class="para">
+        <div class="paraicon">
+          <i class="fa fa-money"></i>
+        </div>
+        <div class="paratext">
+            Trade your view based on 17 predefined multi-leg option strategies
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="cont">
-
+  <div class="register">
+    <br>
+    <h2>Sign Up</h2>
+    <form [formGroup]="createAccountForm" (ngSubmit)="onCreateAccountSubmit()">
+      <div style="position: relative; width: 100%; left: 10%; margin-top: 35px;">
+        <div class="formi ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="fa fa-envelope"></i></span>
+            <input class="forme" type="text" pInputText style="width: 70%" placeholder="Email ID" formControlName="emailId">
+        </div>
+        <div class="formi ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="fa fa-user-circle-o"></i></span>
+            <input class="forme" type="text" pInputText style="width: 70%" placeholder="First Name" formControlName="firstName">
+        </div>
+        <div class="formi ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="fa fa-user-circle"></i></span>
+            <input class="forme" type="text" pInputText style="width: 70%" placeholder="Last Name" formControlName="lastName">
+        </div>
+        <div class="formi ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="fa fa-lock"></i></span>
+            <input class="forme" type="password" pInputText style="width: 70%" placeholder="Password" formControlName="password">
+        </div>
+        <div class="formi ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="fa fa-lock"></i></span>
+            <input class="forme" type="password" pInputText style="width: 70%" placeholder="Confirm Password" formControlName="confirmPassword">
+        </div>
+      </div>
+      <div style="text-align:left; margin: 25px; position: relative; left: 10%">
+        <button class="btn btn-success" type="submit" style="width: 78%" [disabled]="!createAccountForm.valid">Sign Up</button>
+      </div>
+    </form>
   </div>
 </div>
