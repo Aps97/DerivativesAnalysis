@@ -18,12 +18,7 @@ import { AddNewHoldings } from '../Classes/AddNewHolding';
 })
 export class CurrentHoldingsComponentComponent implements OnInit {
 
-<<<<<<< HEAD
   private chart: am4charts.XYChart;
-=======
-  // private chart: am4charts.XYChart;
-
->>>>>>> b74f88f96700af06c30426daacf936cd7bf4f28c
   holdings : any;
   tableData : Derivative[] = [];
   cols : any[];
@@ -32,15 +27,15 @@ export class CurrentHoldingsComponentComponent implements OnInit {
   graphData : any;
   // form: FormGroup;
 
-  constructor(  
+  constructor(
     private derivativeService: DataService,
                //private formBuilder: FormBuilder
                ) {
       //this.holdings = this.derivativeService.getUserHoldings();
      }
 
-    
-  
+
+
   ngOnInit() {
 
     //uncomment after connecting with backend
@@ -50,12 +45,12 @@ export class CurrentHoldingsComponentComponent implements OnInit {
     //       console.log(this.holdings);
     //     });
 
-    
+
     this.holdings = userHoldings;
     console.log(this.holdings);
 
     for(let x=0; x<this.holdings.length; x++){
-      
+
         let temp = new Derivative();
         if(this.holdings[x].type == "FUT"){
           temp.price = this.holdings[x].avgPrice;
@@ -63,7 +58,7 @@ export class CurrentHoldingsComponentComponent implements OnInit {
         else{
           temp.price = this.holdings[x].premium;
         }
-        
+
         temp.symbol = this.holdings[x].symbol;
         temp.instrument = this.holdings[x].expiryDate + " " + this.holdings[x].strikePrice + " " + this.holdings[x].type;
         temp.position = this.holdings[x].position;
@@ -96,10 +91,9 @@ export class CurrentHoldingsComponentComponent implements OnInit {
   }
 
   createChart(){
-    
+
     let temp = [];
 
-<<<<<<< HEAD
     let chartData = new AddNewHoldings();
 
     chartData.price = this.selectedHolding.price.toString();
@@ -130,8 +124,8 @@ export class CurrentHoldingsComponentComponent implements OnInit {
       console.log(this.graphData);
       this.generateChart();
     });
-       
-    
+
+
   }
 
   generateChart(){
@@ -140,14 +134,14 @@ export class CurrentHoldingsComponentComponent implements OnInit {
     // Add data
     chart.data = this.graphData;
     console.log(chart.data);
-    
+
     // Create axes
     var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
     xAxis.renderer.minGridDistance = 40;
     xAxis.min = 0;
     xAxis.max =  10000;
-    
-    
+
+
     // Create value axis
     var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
     yAxis.min = -50000;
@@ -159,7 +153,7 @@ export class CurrentHoldingsComponentComponent implements OnInit {
     series.strokeWidth = 3;
     series.tooltipText = "{valueY.value}";
     series.fillOpacity = 0.1;
-      
+
 
     var range = yAxis.createSeriesRange(series);
     range.value = 0;
@@ -176,57 +170,16 @@ export class CurrentHoldingsComponentComponent implements OnInit {
     yAxis.title.text = "Profit/Loss";
     yAxis.title.fontWeight = "bold";
 
-    
+
     //scrollbars
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.xAxis = xAxis;
     chart.scrollbarX = new am4core.Scrollbar();
     chart.scrollbarY = new am4core.Scrollbar();
-  
+
     this.chart = chart;
-  
+
 }
-=======
-  //   let response;
-  //   let postData = this.selectedHoldings;
-  //   // this.derivativeService.sendHoldings_getChartData(postData).subscribe(result =>{
-  //   //     response = result;
-  //   // });
-
-  //   this.LineChart = new Chart('lineChart', {
-  //     type: 'line',
-  //     data: {
-  //       labels: ['start', 'mid', 'end'],
-  //       datasets: [{
-  //         label: 'Pay-Off Chart for selected holdings',
-  //         data: [
-  //           {x:-4, y: -1, indexLabel: "lowest", markerColor: "DarkSlateGrey", markerType: "cross"} , {x:4, y:-1}, {x:8, y:8}],
-  //         fill: false,
-  //         lineTension: 0,
-  //         borderColor: 'red',
-  //         borderWidth: 1
-  //       }]
-  //     },
-  //     options: {
-  //       title: {
-  //         text: 'Line Chart',
-  //         display: true
-  //       },
-  //       scales: {
-  //         yAxes: [{
-  //           ticks: {
-  //             beginAtZero: true
-  //           }
-  //         }]
-  //       }
-  //     }
-  //   });
-
-  // let chart = am4core.create("chartdiv", am4charts.XYChart);
-
-  
-   }
->>>>>>> b74f88f96700af06c30426daacf936cd7bf4f28c
 }
 
 //   generateChart(){
