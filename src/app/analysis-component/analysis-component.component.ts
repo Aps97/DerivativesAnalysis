@@ -36,6 +36,7 @@ export class AnalysisComponentComponent implements OnInit {
   securities: SelectItem[];  //list of 5 securities in the dropdown
   instruments: SelectItem[];  //list of derivatives after security selection
 
+  prevSelectedSecurity : String = " ";  //holds the last made selection
   selectedSecurity: String;     //holds the selection made from security dropdown
   selectedInstrument : string;  //holds the selection made from instruments dropdown
   selectedPosition: string;  //holds the selected position
@@ -94,7 +95,14 @@ export class AnalysisComponentComponent implements OnInit {
   }
 
   getInstrumentList(){
+    
+    
+
     if(this.selectedSecurity){
+      if(this.prevSelectedSecurity && this.selectedSecurity!==this.prevSelectedSecurity){
+        this.clearSelections(); 
+        this.prevSelectedSecurity = this.selectedSecurity;
+      }
       this.analysisService.getInstrumentsData(this.selectedSecurity).subscribe(
           res => {
               this.instruments = [];
@@ -114,7 +122,6 @@ export class AnalysisComponentComponent implements OnInit {
   }
 
   onAnalysisSubmit(data){
-
     this.postData = new AnalysisData();
     this.postData.price = data.value["price"].toString();
     this.postData.position = this.selectedPosition;
@@ -139,7 +146,6 @@ export class AnalysisComponentComponent implements OnInit {
     x.position = this.postData.position;
     x.numLots = this.postData.quantity;
     this.partialTableData.push(x);
-    //console.log(x);
 
     let tempResult;
 
