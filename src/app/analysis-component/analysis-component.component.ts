@@ -40,7 +40,7 @@ export class AnalysisComponentComponent implements OnInit {
   selectedInstrument : string;  //holds the selection made from instruments dropdown
   selectedPosition: string;  //holds the selected position
   selectedItems : any;
-  
+
   maxProfit : number;      //to display the max profit
   maxLoss : number;        //to display the max loss
   Breakevens : number[];   //to display the list of breakevens
@@ -52,7 +52,7 @@ export class AnalysisComponentComponent implements OnInit {
 
   setPrice : number;
   setQuantity : number;
-  lotSize = "Lot Size ";   
+  lotSize = "Lot Size ";
   uValue = "U.Value ";              //to display in html
   temp: any;                        //receives list of derivatives from the service
   completeTableData: AnalysisData[] = [];   //holds the list of selected derivatives
@@ -129,7 +129,7 @@ export class AnalysisComponentComponent implements OnInit {
     this.postData.type = tempInstrument[2];
 
     temp = this.lotSize.split(" ", 3);
-    this.postData.lotsize = temp[2];
+    this.postData.lotSize = temp[2];
 
     this.completeTableData.push(this.postData);
     console.log(this.completeTableData);
@@ -169,14 +169,14 @@ export class AnalysisComponentComponent implements OnInit {
       // Add data
       chart.data = this.graphData;
       console.log(chart.data);
-      
+
       // Create axes
       var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
       xAxis.renderer.minGridDistance = 40;
       xAxis.min = 0;
       xAxis.max =  10000;
-      
-      
+
+
       // Create value axis
       var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
       yAxis.min = -50000;
@@ -188,7 +188,7 @@ export class AnalysisComponentComponent implements OnInit {
       series.strokeWidth = 3;
       series.tooltipText = "{valueY.value}";
       series.fillOpacity = 0.1;
-        
+
 
       var range = yAxis.createSeriesRange(series);
       range.value = 0;
@@ -205,15 +205,15 @@ export class AnalysisComponentComponent implements OnInit {
       yAxis.title.text = "Profit/Loss";
       yAxis.title.fontWeight = "bold";
 
-      
+
       //scrollbars
       chart.cursor = new am4charts.XYCursor();
       chart.cursor.xAxis = xAxis;
       chart.scrollbarX = new am4core.Scrollbar();
       chart.scrollbarY = new am4core.Scrollbar();
-    
+
       this.chart = chart;
-    
+
   }
 
   clearSelections(){
@@ -240,14 +240,14 @@ export class AnalysisComponentComponent implements OnInit {
 
     inputData.price = this.postData.price;
     console.log(inputData);
-    
+
     this.analysisService.sendUserHolding(inputData).subscribe(res=>{
       this.message = res;
       console.log(this.message);
       let tempx = this.message.userHoldings;
       console.log(tempx);
     });
-  
+
   }
 
   setFields(){

@@ -27,6 +27,7 @@
   -o-background-size: cover;
   background-size: cover;
   z-index: 1500;
+  cursor: pointer;
 }
 
 .banner{
@@ -46,7 +47,7 @@
   border: 1px solid #bfbfbf;
   background-color: rgba(#F2F4F7,0.9);
   position: relative;
-  top: 95px;
+  top: 96px;
   left: 2.5px;
   padding: 15px;
   margin: 3vw;
