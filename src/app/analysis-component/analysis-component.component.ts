@@ -169,57 +169,83 @@ export class AnalysisComponentComponent implements OnInit {
   }
 
   generateChart(){
-      let chart = am4core.create("chartdiv", am4charts.XYChart);
+    let chart = am4core.create("chartdiv", am4charts.XYChart);
 
-      // Add data
-      chart.data = this.graphData;
-      console.log(chart.data);
+    // Add data
+    chart.data = this.graphData;
+    console.log(this.graphData);
+    
+    // function getMinY() {
+    //   return chart.data.reduce((min, p) => p.y < min ? p.y : min, chart.data[0].y);
+    // }
+    // function getMaxY() {
+    //   return chart.data.reduce((max, p) => p.y > max ? p.y : max, chart.data[0].y);
+    // }
 
-      // Create axes
-      var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
-      xAxis.renderer.minGridDistance = 40;
-      xAxis.min = 0;
-      xAxis.max =  10000;
+    // Create axes
+    var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
+    xAxis.min = 0;
+    xAxis.max = chart.data[chart.data.length-1].x + 100;
+    console.log("x min"+xAxis.min);
+    console.log("x max"+xAxis.max);
+    
+    // Create value axis
+    var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    var max = chart.data[0].y;
+    var min = chart.data[0].y;
+    for(var i=0;i<(chart.data.length);i++)
+    {
+      if(chart.data[i].y >max)
+      {
+        max = chart.data[i].y;
+      }
+      if(chart.data[i].y <min)
+      {
+        min = chart.data[i].y;
+      }
+    }
+
+    yAxis.min = min - 1000;
+    yAxis.max = max + 1000;
+    console.log("y min"+yAxis.min);
+    console.log("y max"+yAxis.max);
+
+    // Create series
+    var series = chart.series.push(new am4charts.LineSeries());
+    series.dataFields.valueY = "y";
+    series.dataFields.valueX = "x";
+    series.strokeWidth = 3;
+    series.tooltipText = "{valueY.value}";
+    series.fillOpacity = 0.1;
+   
 
 
-      // Create value axis
-      var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
-      yAxis.min = -50000;
-      yAxis.max = 50000;
-      // Create series
-      var series = chart.series.push(new am4charts.LineSeries());
-      series.dataFields.valueY = "y";
-      series.dataFields.valueX = "x";
-      series.strokeWidth = 3;
-      series.tooltipText = "{valueY.value}";
-      series.fillOpacity = 0.1;
+    var range = yAxis.createSeriesRange(series);
+    range.value = 0;
+    range.endValue = 999999999;
+    range.contents.stroke = am4core.color("#008000");
+    range.contents.fill = range.contents.stroke;
+    range.contents.strokeOpacity = 0.7;
+    range.contents.fillOpacity = 0.1;
+
+    //titles
+    xAxis.title.text = "Underlying Price";
+    xAxis.title.fontWeight = "bold";
+
+    yAxis.title.text = "Profit/Loss";
+    yAxis.title.fontWeight = "bold";
 
 
-      var range = yAxis.createSeriesRange(series);
-      range.value = 0;
-      range.endValue = 999999999;
-      range.contents.stroke = am4core.color("#008000");
-      range.contents.fill = range.contents.stroke;
-      range.contents.strokeOpacity = 0.7;
-      range.contents.fillOpacity = 0.1;
+    //scrollbars
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.xAxis = xAxis;
+    chart.scrollbarX = new am4core.Scrollbar();
+    chart.scrollbarY = new am4core.Scrollbar();
 
-      //titles
-      xAxis.title.text = "Underlying Price";
-      xAxis.title.fontWeight = "bold";
+    this.chart = chart;
 
-      yAxis.title.text = "Profit/Loss";
-      yAxis.title.fontWeight = "bold";
+}
 
-
-      //scrollbars
-      chart.cursor = new am4charts.XYCursor();
-      chart.cursor.xAxis = xAxis;
-      chart.scrollbarX = new am4core.Scrollbar();
-      chart.scrollbarY = new am4core.Scrollbar();
-
-      this.chart = chart;
-
-  }
 
   clearSelections(){
     this.completeTableData = [];
