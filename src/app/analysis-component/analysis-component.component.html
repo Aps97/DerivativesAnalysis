@@ -105,15 +105,15 @@
                     [scrollable]="true" [style]="{width:'600px'}" ngDefaultControl *ngIf="partialTableData.length > 0"
                     selectionMode="single" [(selection)]="selectedItems">
                     <ng-template pTemplate="caption">
-                        <div class="row" style="height: 35px">
-                            <p-button (onClick)="clearSelections()"
-                                style="width: 70px; height: 30px; margin-left: 10px; margin-right: 25px; font-size: 15px">
-                                Clear</p-button>
-                            <p-button (onClick)="addSelection()" style="font-size: 15px">Add</p-button>
-                            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                            <input type="text" pInputText size="40" placeholder="Global Filter"
+                        <div class="row">
+                                <button pButton type="button" label="Clear Table" (click)="clearSelections($event)" style="margin-left: 10px; background-color: currentColor; border:currentColor; text-decoration-line: underline; -webkit-text-fill-color:  darkblue"></button>
+                                <button pButton type="button" label="Add Derivative" (click)="addSelection($event)" style="margin-left: 10px; background-color: currentColor; border:currentColor; text-decoration-line: underline; -webkit-text-fill-color:  darkblue"></button>
+                           <div class="col-sm-4">
+                            <i class="fa fa-search" style="margin-top:2px;  margin-left:30px; margin-right:10px"></i> 
+                             <input type="text" pInputText size="40" placeholder="Global Filter"
                                 (input)="at.filterGlobal($event.target.value, 'contains')"
-                                style="width:270px; height: 30px;">
+                                style="margin-left:4px;  width:150px; height: 30px; -webkit-text-fill-color:  darkblue">
+                            </div>
                         </div>
                     </ng-template>
                     <ng-template pTemplate="header" let-columns>
