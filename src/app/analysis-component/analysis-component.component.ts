@@ -15,7 +15,7 @@ import am4themes_material from "@amcharts/amcharts4/themes/material.js";
 am4core.useTheme(am4themes_material);
 am4core.useTheme(am4themes_animated);
 import { AddNewHoldings } from '../Classes/AddNewHolding';
-import { emailId, userHoldings } from '../login/login.component';
+import { emailId, setHoldings } from '../login/login.component';
 
 export class AnalysisTable{
   strategy : String;
@@ -89,8 +89,7 @@ export class AnalysisComponentComponent implements OnInit {
       { field: 'strategy', header: 'Strategy' },
       { field: 'entryPrice', header: 'Entry Price' },
       { field: 'position', header: 'Position' },
-      { field: 'numLots', header: 'No. of Lots' },
-      { field: '', header: ''}
+      { field: 'numLots', header: 'No. of Lots' }
     ];
   }
 
@@ -234,9 +233,6 @@ export class AnalysisComponentComponent implements OnInit {
     inputData.expiryDate = tempInstrument[0];
     inputData.strikePrice = tempInstrument[1];
     inputData.type = tempInstrument[2];
-    // tempInstrument = tempInstrument[3].split("(", 2);
-    // tempInstrument = tempInstrument[1].split(")",2);
-    //this.setPrice = tempInstrument[0];
 
     inputData.price = this.postData.price;
     console.log(inputData);
@@ -246,6 +242,8 @@ export class AnalysisComponentComponent implements OnInit {
       console.log(this.message);
       let tempx = this.message.userHoldings;
       console.log(tempx);
+      setHoldings(this.message.userHoldings);
+      //userHoldings = tempx;
     });
 
   }
@@ -253,9 +251,14 @@ export class AnalysisComponentComponent implements OnInit {
   setFields(){
     if(this.selectedInstrument){
       let tempInstrument = this.selectedInstrument["label"].split(" ", 4);
-      tempInstrument = tempInstrument[3].split("(", 2);
-      tempInstrument = tempInstrument[1].split(")",2);
-      this.setPrice = tempInstrument[0];
+      if(tempInstrument[2] === "FUT"){
+        this.setPrice = tempInstrument[1];
+      }
+      else{
+        tempInstrument = tempInstrument[3].split("(", 2);
+        tempInstrument = tempInstrument[1].split(")",2);
+        this.setPrice = tempInstrument[0];
+      }
       this.setQuantity = 1;
       this.selectedPosition = "LONG";
       this.disableButton = false;
