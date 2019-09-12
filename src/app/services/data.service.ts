@@ -14,7 +14,7 @@ export class DataService {
 
   getInstrumentsData(selectedSecurity: String) {
     console.log("inside instru");
-    return this.httpService.post<Derivative[]>('http://localhost:8082/DerivativeAnalysis/rest/derivativeList', selectedSecurity).pipe(map(result => result));
+    return this.httpService.post<Derivative[]>('http://localhost:8082/DerivativeAnalysis/rest/derivativelist', selectedSecurity).pipe(map(result => result));
   }
 
   sendUserHolding(holding: any) {

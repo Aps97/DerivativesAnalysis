@@ -144,6 +144,7 @@ export class AnalysisComponentComponent implements OnInit {
 
     let tempResult;
 
+    console.log(this.completeTableData);
     this.analysisService.sendAnalysisInput(this.completeTableData).subscribe(res=>{
       tempResult = res;
       this.maxProfit = tempResult.maxprofit;
@@ -163,46 +164,6 @@ export class AnalysisComponentComponent implements OnInit {
   }
 
   generateChart(){
-
-    // if(!this.LineChart){
-    //     lineChart.update();
-    // }
-    // this.LineChart = new Chart('lineChart', {
-    //   type: 'line',
-    //   data: {
-    //     labels: this.graphLabels,
-    //     scaleOverride : true,
-    //     datasets: [{
-    //       label: 'Pay-Off Chart for selected holdings',
-    //       data: this.graphData,
-    //       fill: false,
-    //       lineTension: 0,
-    //       borderColor: 'red',
-    //       borderWidth: 1
-    //     }]
-    //   },
-    //   options: {
-    //     title: {
-    //       text: 'Line Chart',
-    //       display: true
-    //     },
-    //     scales: {
-    //       xAxes: [{
-    //         type : 'linear',
-    //         ticks: {
-    //           beginAtZero: false
-    //         }
-    //       }],
-    //       yAxes: [{
-    //         ticks: {
-    //           beginAtZero: false
-    //         }
-    //       }],
-    //     }
-    //   }
-    // });
-
-    // this.zone.runOutsideAngular(() => {
       let chart = am4core.create("chartdiv", am4charts.XYChart);
 
       // Add data
@@ -250,11 +211,9 @@ export class AnalysisComponentComponent implements OnInit {
       chart.cursor.xAxis = xAxis;
       chart.scrollbarX = new am4core.Scrollbar();
       chart.scrollbarY = new am4core.Scrollbar();
-      
-      // end am4core.ready()
     
       this.chart = chart;
-    // });
+    
   }
 
   clearSelections(){
