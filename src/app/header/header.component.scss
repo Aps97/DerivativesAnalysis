@@ -4,7 +4,8 @@
 
 .bgimg{
   position: fixed;
-  background-image: url(../login/bg.jpg);
+  background-image: url(bg1.jpg);
+  opacity: 0.8;
   width: 100%;
   height: 100%;
   -webkit-background-size: cover;
@@ -14,8 +15,9 @@
 }
 
 .citi{
-  position: absolute;
-  margin-left: 3vw;
+  position: fixed;
+  float: left;
+  margin-left: 60px;
   margin-top: 22px;
   background: url(../login/citi.png);
   width: 55px;
@@ -42,7 +44,7 @@
   border-radius: 5px;
   border-top-left-radius: 0px;
   border: 1px solid #bfbfbf;
-  background-image: linear-gradient(to top, rgba(black,0.6), rgba(darkslategrey,0.5));
+  background-color: rgba(#F2F4F7,0.9);
   position: relative;
   top: 95px;
   left: 2.5px;
@@ -62,9 +64,9 @@
 }
 
 .btn-welcome {
-  background: rgb(250, 194, 28);
+  background: khaki;
 }
 
 .btn-logout {
-  background: indianred;
+  background: lightsalmon;
 }

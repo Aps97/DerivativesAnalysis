@@ -9,7 +9,7 @@
         <button class="btn btn-welcome">Welcome, {{temp}}</button>
       </div>
       <div class="right">
-        <button class="btn btn-logout" (onClick)="logout()">Log Out</button>
+        <button class="btn btn-logout" onclick="logout()">Log Out</button>
       </div>
   </div>
 
@@ -19,6 +19,6 @@
   <p-tabMenu [model]="items"></p-tabMenu>
 </nav>
 
-<div class="app-container" fxFlex>
+<div class="app-container">
   <router-outlet></router-outlet>
  </div>

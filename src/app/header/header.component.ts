@@ -30,11 +30,8 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     setUser(null, 'Guest', null, null, null, null);
+    console.log("Logging out...");
     this.router.navigateByUrl('/login');
   }
-
-  // logout(){
-  //   setLoginEmail(null, null);
-  // }
 
 }
