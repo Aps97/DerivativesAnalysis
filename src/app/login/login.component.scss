@@ -27,6 +27,20 @@
   background-size: cover;
 }
 
+.rm{
+  position: fixed;
+  margin-left: 3vw;
+  margin-top: 15px;
+  left: 75px;
+  background: url(rm.png);
+  width: 50px;
+  height: 50px;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 .banner{
   position: fixed;
   z-index:1000;
