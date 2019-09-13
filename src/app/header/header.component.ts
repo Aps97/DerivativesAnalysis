@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.items = [
-      {label: 'Dashboard', icon: 'fa fa-fw fa-tachometer', routerLink: ['../dashboard']},
+      // {label: 'Dashboard', icon: 'fa fa-fw fa-tachometer', routerLink: ['../dashboard']},
       {label: 'Current Holdings', icon: 'fa fa-fw fa-th-list', routerLink: ['../holdings']},
       {label: 'Derivatives Analysis', icon: 'fa fa-fw fa-line-chart', routerLink: ['../analysis']},
       {label: 'Strategy Builder', icon: 'fa fa-fw fa-money', routerLink: ['../strategies']},

@@ -66,6 +66,7 @@ import {ToastModule} from 'primeng/toast';
       { path: 'app/holdings', component: CurrentHoldingsComponentComponent, canActivate: [AuthGuard]},
       { path: 'app/analysis', component: AnalysisComponentComponent, canActivate: [AuthGuard]},
       { path: 'app/strategies', component: StrategyBuilderComponentComponent, canActivate: [AuthGuard]},
+      { path: 'app/dashboard', redirectTo: '/holdings'},
       { path: '**', redirectTo: '/login'}
     ]),
     TabMenuModule,

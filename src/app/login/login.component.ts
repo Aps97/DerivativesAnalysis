@@ -116,7 +116,7 @@ export class LoginComponent implements OnInit {
       await delay(500);
       setUser(resp.uniqueIdentifier, resp.firstName, resp.lastName);
       setGain(resp.gainList, resp.gainPercentageList);
-      this.router.navigateByUrl(resp.url);
+      this.router.navigateByUrl('/app/holding');
     });
   }
 
@@ -143,7 +143,7 @@ export class LoginComponent implements OnInit {
       setHoldings(resp.userHolding);
       setGain(resp.gainList, resp.gainPercentageList);
       if (error) {
-        this.router.navigateByUrl(resp.url);
+        this.router.navigateByUrl('/app/holdings');
       }
     });
   }

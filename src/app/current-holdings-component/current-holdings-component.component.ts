@@ -39,13 +39,11 @@ export class CurrentHoldingsComponentComponent implements OnInit {
   selectedHolding : any;
   LineChart = [];
   graphData : any;
-  // form: FormGroup;
 
   constructor(
-    private derivativeService: DataService,
-               //private formBuilder: FormBuilder
+    private derivativeService: DataService
                ) {
-      //this.holdings = this.derivativeService.getUserHoldings();
+      
      }
 
 
@@ -78,13 +76,13 @@ export class CurrentHoldingsComponentComponent implements OnInit {
 
     this.cols = [
         { field: 'symbol', header: 'Symbol', width:'12.5%' },
-        { field: 'instrument', header: 'Instrument', width:'20%' },
+        { field: 'instrument', header: 'Instrument', width:'19%' },
         { field: 'position', header: 'Position', width:'12.5%' },
         { field: 'numLots', header: 'Quantity', width:'11.5%' },
-        { field: 'price', header: 'Price', width:'10%' },
-        { field: 'lcp', header: 'LCP', width:'9.5%' },
-        { field: 'ltp', header: 'LTP', width:'9.5%' },
-        { field: 'pl', header: 'Profit/Loss', width:'12.5%' },
+        { field: 'price', header: 'Price(र)', width:'10%' },
+        { field: 'lcp', header: 'LCP(र)', width:'9.5%' },
+        { field: 'ltp', header: 'LTP(र)', width:'9.5%' },
+        { field: 'pl', header: 'Profit/Loss(र)', width:'13.5%' },
         { field: 'per_change', header: '% Change', width:'12.5%' }
     ];
   }
@@ -135,13 +133,6 @@ export class CurrentHoldingsComponentComponent implements OnInit {
     chart.data = this.graphData;
     console.log(this.graphData);
     
-    // function getMinY() {
-    //   return chart.data.reduce((min, p) => p.y < min ? p.y : min, chart.data[0].y);
-    // }
-    // function getMaxY() {
-    //   return chart.data.reduce((max, p) => p.y > max ? p.y : max, chart.data[0].y);
-    // }
-
     // Create axes
     var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
     xAxis.min = 0;
@@ -189,7 +180,7 @@ export class CurrentHoldingsComponentComponent implements OnInit {
     range.contents.fillOpacity = 0.1;
 
     //titles
-    xAxis.title.text = "Underlying Price";
+    xAxis.title.text = "Underlying Price(र)";
     xAxis.title.fontWeight = "bold";
 
     yAxis.title.text = "Profit/Loss";

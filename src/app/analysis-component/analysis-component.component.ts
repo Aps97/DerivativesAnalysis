@@ -51,18 +51,17 @@ export class AnalysisComponentComponent implements OnInit {
   LineChart = [];               //to display the chart
   postData : AnalysisData;    //to send analysis data to the service
 
-  setPrice : number;
-  setQuantity : number;
-  lotSize = "Lot Size ";
-  uValue = "U.Value ";              //to display in html
+  setPrice : number;    //to set the price in html
+  setQuantity : number;    //to set the quantity in html
+  lotSize = "Lot Size ";  //to set the lot size in html
+  uValue = "U.Value ";              //to display underlying value in html
   temp: any;                        //receives list of derivatives from the service
   completeTableData: AnalysisData[] = [];   //holds the list of selected derivatives
   partialTableData: AnalysisTable[] = [];
 
-  graphData : any;
-  graphLabels = ['1', '2', '3'];
+  graphData : any;  //to store graph data from backend
   message : any;
-  disableButton = true;
+  disableButton = true; //disabale submit button until valid
 
   constructor(
     private zone: NgZone,
@@ -79,14 +78,14 @@ export class AnalysisComponentComponent implements OnInit {
 
   ngOnInit() {
     this.cols = [
-      { field: 'strategy', header: 'Strategy' },
-      { field: 'entryPrice', header: 'Entry Price' },
+      { field: 'strategy', header: 'Security' },
+      { field: 'entryPrice', header: 'Entry Price(र)' },
       { field: 'position', header: 'Position' },
       { field: 'numLots', header: 'No. of Lots' }
     ];
   }
 
-  getInstrumentList(){
+  getInstrumentList(){  //call service to populate security dropdown
     
     if(this.selectedSecurity){
       if(this.prevSelectedSecurity && this.selectedSecurity!==this.prevSelectedSecurity){
@@ -99,9 +98,17 @@ export class AnalysisComponentComponent implements OnInit {
               this.temp = res;
               
               for(var x=0; x<this.temp.derivativeList.length; x++){
-                this.instruments.push({label: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " "
+                if(this.temp.derivativeList[x].type === "FUT"){
+                  this.instruments.push({label: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " "
+                + this.temp.derivativeList[x].type + " " + "("+ this.temp.derivativeList[x].ltp + ")",
+                value: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " " + this.temp.derivativeList[x].type})
+                }
+                else{
+                  this.instruments.push({label: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " "
                 + this.temp.derivativeList[x].type + " " + "("+ this.temp.derivativeList[x].premium + ")",
                 value: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " " + this.temp.derivativeList[x].type})
+                }
+                
               }
 
               this.lotSize = "Lot Size " + this.temp.derivativeList[0].lotSize.toString();
@@ -110,7 +117,7 @@ export class AnalysisComponentComponent implements OnInit {
     }
   }
 
-  onAnalysisSubmit(data){
+  onAnalysisSubmit(data){  //on submit for analysis form data
     this.postData = new AnalysisData();
     this.postData.price = data.value["price"].toString();
     this.postData.position = this.selectedPosition;
@@ -162,20 +169,11 @@ export class AnalysisComponentComponent implements OnInit {
 
     // Add data
     chart.data = this.graphData;
-    
-    // function getMinY() {
-    //   return chart.data.reduce((min, p) => p.y < min ? p.y : min, chart.data[0].y);
-    // }
-    // function getMaxY() {
-    //   return chart.data.reduce((max, p) => p.y > max ? p.y : max, chart.data[0].y);
-    // }
 
     // Create axes
     var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
     xAxis.min = 0;
     xAxis.max = chart.data[chart.data.length-1].x + 100;
-    // console.log("x min"+xAxis.min);
-    // console.log("x max"+xAxis.max);
     
     // Create value axis
     var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
@@ -195,9 +193,7 @@ export class AnalysisComponentComponent implements OnInit {
 
     yAxis.min = min - 1000;
     yAxis.max = max + 1000;
-    // console.log("y min"+yAxis.min);
-    // console.log("y max"+yAxis.max);
-
+    
     // Create series
     var series = chart.series.push(new am4charts.LineSeries());
     series.dataFields.valueY = "y";
@@ -206,7 +202,6 @@ export class AnalysisComponentComponent implements OnInit {
     series.tooltipText = "{valueY.value}";
     series.fillOpacity = 0.1;
    
-
 
     var range = yAxis.createSeriesRange(series);
     range.value = 0;
@@ -217,7 +212,7 @@ export class AnalysisComponentComponent implements OnInit {
     range.contents.fillOpacity = 0.1;
 
     //titles
-    xAxis.title.text = "Underlying Price";
+    xAxis.title.text = "Underlying Price (र)";
     xAxis.title.fontWeight = "bold";
 
     yAxis.title.text = "Profit/Loss";
@@ -235,7 +230,7 @@ export class AnalysisComponentComponent implements OnInit {
 }
 
 
-  clearSelections(){
+  clearSelections(){  //to clear selected derivatives
     this.completeTableData = [];
     this.partialTableData = [];
     this.graphData = [];
@@ -248,7 +243,7 @@ export class AnalysisComponentComponent implements OnInit {
     }
   }
 
-  addSelection(){
+  addSelection(){ //to add the input derivative in user holding table
     let inputData  = new AddNewHoldings();
     inputData.numLots = this.postData.quantity;
     inputData.symbol = this.selectedSecurity["label"];
@@ -259,7 +254,10 @@ export class AnalysisComponentComponent implements OnInit {
 
     let tempInstrument = this.selectedInstrument["label"].split(" ", 4);
     inputData.expiryDate = tempInstrument[0];
-    inputData.strikePrice = tempInstrument[1];
+    if(tempInstrument[2]==="FUT")
+      inputData.strikePrice="0";
+    else
+      inputData.strikePrice = tempInstrument[1];
     inputData.type = tempInstrument[2];
 
     inputData.price = this.postData.price;
@@ -278,17 +276,13 @@ export class AnalysisComponentComponent implements OnInit {
 
   }
 
-  setFields(){
+  setFields(){  //set placefolders for all the fields
     if(this.selectedInstrument){
       let tempInstrument = this.selectedInstrument["label"].split(" ", 4);
-      if(tempInstrument[2] === "FUT"){
-        this.setPrice = tempInstrument[1];
-      }
-      else{
         tempInstrument = tempInstrument[3].split("(", 2);
         tempInstrument = tempInstrument[1].split(")",2);
         this.setPrice = tempInstrument[0];
-      }
+      
       this.setQuantity = 1;
       this.selectedPosition = "LONG";
       this.disableButton = false;

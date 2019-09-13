@@ -129,9 +129,9 @@ export class StrategyBuilderComponentComponent implements OnInit {
         { field: 'strategyName', header: 'Name' },
         // {field: 'trade',header:'Trade'},
         { field: 'holdings', header: 'Holdings' },
-        { field: 'maxProfit', header: 'Max Profit' },
-        { field: 'maxLoss', header: 'Max Loss' },
-        { field: 'breakevens', header: 'Breakeven' }
+        { field: 'maxProfit', header: 'Max Profit(र)' },
+        { field: 'maxLoss', header: 'Max Loss(र)' },
+        { field: 'breakevens', header: 'Breakeven(र)' }
       ];
   }
 
