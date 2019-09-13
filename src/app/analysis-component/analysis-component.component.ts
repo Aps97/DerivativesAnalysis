@@ -15,7 +15,7 @@ import am4themes_material from "@amcharts/amcharts4/themes/material.js";
 am4core.useTheme(am4themes_material);
 am4core.useTheme(am4themes_animated);
 import { AddNewHoldings } from '../Classes/AddNewHolding';
-import { emailId, setHoldings } from '../login/login.component';
+import { emailId, setHoldings, setGain, gain } from '../login/login.component';
 
 export class AnalysisTable{
   strategy : String;
@@ -42,8 +42,8 @@ export class AnalysisComponentComponent implements OnInit {
   selectedPosition: string;  //holds the selected position
   selectedItems : any;
 
-  maxProfit : number;      //to display the max profit
-  maxLoss : number;        //to display the max loss
+  maxProfit : any;      //to display the max profit
+  maxLoss : any;        //to display the max loss
   Breakevens : number[];   //to display the list of breakevens
 
   cols : any[];    //list of table columns
@@ -77,14 +77,6 @@ export class AnalysisComponentComponent implements OnInit {
     ];
   }
 
-  // ngOnDestroy() {
-  //   this.zone.runOutsideAngular(() => {
-  //     if (this.chart) {
-  //       this.chart.dispose();
-  //     }
-  //   });
-  // }
-
   ngOnInit() {
     this.cols = [
       { field: 'strategy', header: 'Strategy' },
@@ -105,8 +97,7 @@ export class AnalysisComponentComponent implements OnInit {
           res => {
               this.instruments = [];
               this.temp = res;
-              console.log(this.temp);
-
+              
               for(var x=0; x<this.temp.derivativeList.length; x++){
                 this.instruments.push({label: this.temp.derivativeList[x].expiryDate + " " + this.temp.derivativeList[x].strikePrice + " "
                 + this.temp.derivativeList[x].type + " " + "("+ this.temp.derivativeList[x].premium + ")",
@@ -136,8 +127,7 @@ export class AnalysisComponentComponent implements OnInit {
     this.postData.lotSize = temp[2];
 
     this.completeTableData.push(this.postData);
-    console.log(this.completeTableData);
-
+    
     let x = new AnalysisTable();
     x.strategy = this.selectedInstrument["label"];
     x.entryPrice = this.postData.price;
@@ -147,10 +137,13 @@ export class AnalysisComponentComponent implements OnInit {
 
     let tempResult;
 
-    console.log(this.completeTableData);
     this.analysisService.sendAnalysisInput(this.completeTableData).subscribe(res=>{
       tempResult = res;
       this.maxProfit = tempResult.maxprofit;
+      if(this.maxProfit > 20000000)
+        this.maxProfit = "Unlimited";
+      if(this.maxLoss < -20000000)
+        this.maxLoss = "Unlimited";
       this.maxLoss = tempResult.maxloss;
       this.Breakevens = tempResult.breakevenpoints;
       this.graphData = [];
@@ -159,8 +152,6 @@ export class AnalysisComponentComponent implements OnInit {
         this.graphData.push(tempResult.coordinatelist[i]);
       }
 
-      console.log("graph data coming");
-      console.log(this.graphData);
       this.generateChart();
     });
 
@@ -171,7 +162,6 @@ export class AnalysisComponentComponent implements OnInit {
 
     // Add data
     chart.data = this.graphData;
-    console.log(this.graphData);
     
     // function getMinY() {
     //   return chart.data.reduce((min, p) => p.y < min ? p.y : min, chart.data[0].y);
@@ -184,8 +174,8 @@ export class AnalysisComponentComponent implements OnInit {
     var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
     xAxis.min = 0;
     xAxis.max = chart.data[chart.data.length-1].x + 100;
-    console.log("x min"+xAxis.min);
-    console.log("x max"+xAxis.max);
+    // console.log("x min"+xAxis.min);
+    // console.log("x max"+xAxis.max);
     
     // Create value axis
     var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
@@ -205,8 +195,8 @@ export class AnalysisComponentComponent implements OnInit {
 
     yAxis.min = min - 1000;
     yAxis.max = max + 1000;
-    console.log("y min"+yAxis.min);
-    console.log("y max"+yAxis.max);
+    // console.log("y min"+yAxis.min);
+    // console.log("y max"+yAxis.max);
 
     // Create series
     var series = chart.series.push(new am4charts.LineSeries());
@@ -248,6 +238,14 @@ export class AnalysisComponentComponent implements OnInit {
   clearSelections(){
     this.completeTableData = [];
     this.partialTableData = [];
+    this.graphData = [];
+    this.maxLoss = 0;
+    this.maxProfit = 0;
+    this.Breakevens = [];
+
+    if (this.chart) {
+      this.chart.dispose();
+    }
   }
 
   addSelection(){
@@ -269,11 +267,13 @@ export class AnalysisComponentComponent implements OnInit {
 
     this.analysisService.sendUserHolding(inputData).subscribe(res=>{
       this.message = res;
+      console.log("after add");
       console.log(this.message);
-      let tempx = this.message.userHoldings;
-      console.log(tempx);
       setHoldings(this.message.userHoldings);
+      setGain(this.message.gain, this.message.gainPercentage);
       //userHoldings = tempx;
+      console.log(this.message.gainList);
+      console.log(gain);
     });
 
   }

@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { LoginComponent, firstName } from './../login/login.component';
+import { LoginComponent, firstName, setGain } from './../login/login.component';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { setUser } from '../login/login.component';
@@ -42,8 +42,9 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    setUser(null, 'Guest', null, null, null);
+    setUser(null, 'Guest', null);
     setHoldings(null);
+    setGain(null, null);
     this.router.navigateByUrl('/login');
   }
 
