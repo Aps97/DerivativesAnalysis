@@ -2,11 +2,6 @@ import { AuthGuard } from './auth.guard';
 import { MessageService } from 'primeng/api';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-<<<<<<< Updated upstream
-import { MatTableModule } from '@angular/material';
-=======
-// import { MatTableModule } from  '@angular/material';
->>>>>>> Stashed changes
 import { RadioButtonModule, TooltipModule } from 'primeng/primeng';
 import {DropdownModule} from 'primeng/dropdown';
 import {TableModule} from 'primeng/table';
@@ -64,8 +59,6 @@ import {ToastModule} from 'primeng/toast';
     TableModule,
     BrowserAnimationsModule,
     ButtonModule,
-    //MatTableModule,
-    // MatToolbarModule,
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent},
       { path: '', redirectTo: '/login', pathMatch: 'full'},
